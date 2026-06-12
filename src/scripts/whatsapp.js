@@ -7,6 +7,7 @@ const MENSAJE_BASE = '¡Hola Jorge! 👋 Vi tu página Tu Vecino Confiable y qui
 /**
  * Arma el mensaje de cotización a partir de lo que el cliente eligió.
  * Si no hay nada elegido, cae al mensaje genérico (camino de error cubierto).
+ * @param {{ servicios?: string[], comuna?: string, fecha?: string, hora?: string, detalle?: string }} [datos]
  */
 export function buildWhatsAppMessage({ servicios = [], comuna = '', fecha = '', hora = '', detalle = '' } = {}) {
   const hayDatos = servicios.length || comuna || fecha || hora || detalle;

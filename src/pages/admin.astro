@@ -18,6 +18,32 @@ const estadoClase = (estado: string) => `badge badge--${estado.toLowerCase()}`;
   active="admin"
   admin
 >
+  <!-- Bloqueo por contraseña: panel interno, solo para Jorge y su esposa.
+       Es una traba client-side (demo sin backend); cubre la vista hasta validar. -->
+  <div class="lock" id="admin-lock">
+    <form class="lock-card" id="lock-form">
+      <span class="lock-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4.5" y="10.5" width="15" height="10" rx="2.5" />
+          <path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" />
+          <circle cx="12" cy="15.2" r="1.4" fill="currentColor" stroke="none" />
+        </svg>
+      </span>
+      <h2 class="lock-titulo">Panel privado</h2>
+      <p class="lock-sub">Ingresa la contraseña para entrar al Control de Pegas.</p>
+      <input
+        type="password"
+        id="lock-input"
+        class="lock-input"
+        placeholder="Contraseña"
+        autocomplete="current-password"
+        aria-label="Contraseña del panel"
+      />
+      <p class="lock-error" id="lock-error" hidden>Contraseña incorrecta. Intenta de nuevo.</p>
+      <button type="submit" class="lock-btn">Entrar</button>
+    </form>
+  </div>
+
   <!-- Título (guía §11.2) -->
   <section class="ahead">
     <div class="ahead-text">
@@ -156,6 +182,41 @@ const estadoClase = (estado: string) => `badge badge--${estado.toLowerCase()}`;
 
 <script>
   import { formatCLP } from '../scripts/format.js';
+
+  // ---- Bloqueo por contraseña (traba client-side, demo sin backend) ----
+  const CLAVE = 'zxc098';
+  const SESION_KEY = 'tvc_admin_ok';
+  const lock = document.getElementById('admin-lock')!;
+  const lockForm = document.getElementById('lock-form') as HTMLFormElement;
+  const lockInput = document.getElementById('lock-input') as HTMLInputElement;
+  const lockError = document.getElementById('lock-error')!;
+
+  function desbloquear() {
+    lock.remove();
+    document.body.style.overflow = '';
+  }
+
+  if (sessionStorage.getItem(SESION_KEY) === '1') {
+    desbloquear();
+  } else {
+    document.body.style.overflow = 'hidden';
+    lockInput.focus();
+  }
+
+  lockForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (lockInput.value === CLAVE) {
+      sessionStorage.setItem(SESION_KEY, '1');
+      desbloquear();
+    } else {
+      lockError.hidden = false;
+      lockInput.value = '';
+      lockInput.focus();
+      lock.querySelector('.lock-card')?.classList.remove('lock-card--shake');
+      void (lock.querySelector('.lock-card') as HTMLElement).offsetWidth;
+      lock.querySelector('.lock-card')?.classList.add('lock-card--shake');
+    }
+  });
 
   const STORAGE_KEY = 'tvc_pegas_v1';
 
@@ -298,6 +359,121 @@ const estadoClase = (estado: string) => `badge badge--${estado.toLowerCase()}`;
 </script>
 
 <style>
+  /* ---------- Bloqueo por contraseña ---------- */
+  .lock {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    /* fondo opaco + puntitos en una sola declaración: si se separan, el
+       segundo background-image pisa el degradado y el overlay queda translúcido */
+    background-color: var(--navy);
+    background-image:
+      radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(175deg, var(--navy) 0%, var(--petrol) 100%);
+    background-size: 22px 22px, 100% 100%;
+  }
+
+  .lock-card {
+    width: 100%;
+    max-width: 320px;
+    background: var(--white-warm);
+    border-radius: var(--radius-lg);
+    padding: 28px 22px 24px;
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .lock-card--shake {
+    animation: lock-shake 0.34s ease;
+  }
+
+  @keyframes lock-shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-7px); }
+    40%, 80% { transform: translateX(7px); }
+  }
+
+  .lock-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: var(--yellow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lock-icon svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .lock-titulo {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--ink);
+  }
+
+  .lock-sub {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    line-height: 1.35;
+  }
+
+  .lock-input {
+    width: 100%;
+    background: #fff;
+    border: 1.5px solid rgba(6, 22, 47, 0.18);
+    border-radius: 13px;
+    padding: 12px 14px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    min-height: 48px;
+    text-align: center;
+    letter-spacing: 0.12em;
+    margin-top: 4px;
+  }
+
+  .lock-input:focus-visible {
+    outline: 2.5px solid var(--yellow);
+    outline-offset: 1px;
+    border-color: transparent;
+  }
+
+  .lock-error {
+    font-size: 12px;
+    font-weight: 700;
+    color: #d6336c;
+  }
+
+  .lock-btn {
+    width: 100%;
+    background: var(--yellow);
+    color: var(--navy);
+    font-size: 15px;
+    font-weight: 900;
+    border-radius: 14px;
+    min-height: 50px;
+    box-shadow: 0 5px 14px rgba(255, 196, 0, 0.32);
+    margin-top: 2px;
+    transition: transform 0.12s ease;
+  }
+
+  .lock-btn:active {
+    transform: scale(0.98);
+  }
+
   /* ---------- Título ---------- */
   .ahead {
     display: flex;

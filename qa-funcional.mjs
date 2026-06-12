@@ -12,9 +12,19 @@ const ok = (cond, msg) => {
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 375, height: 812 } });
 
+// Helper: desbloquea el admin con la contraseña
+async function desbloquearAdmin() {
+  if (await page.isVisible('#admin-lock')) {
+    await page.fill('#lock-input', 'zxc098');
+    await page.click('.lock-btn');
+    await page.waitForSelector('#admin-lock', { state: 'detached' });
+  }
+}
+
 // 1) Cero scroll horizontal en las 4 rutas (MOBILE_QA)
 for (const ruta of ['/', '/servicios', '/opiniones', '/admin']) {
   await page.goto(BASE + ruta, { waitUntil: 'networkidle' });
+  if (ruta === '/admin') await desbloquearAdmin();
   const sw = await page.evaluate(() => document.scrollingElement.scrollWidth);
   ok(sw <= 375, `sin scroll horizontal en ${ruta} (scrollWidth=${sw})`);
 }
@@ -34,19 +44,15 @@ ok(await page.isHidden('#menu-sheet'), 'menú cierra al volver a tocar');
 
 // 4) Servicios: selección de cards y preview WhatsApp en vivo
 await page.goto(BASE + '/servicios', { waitUntil: 'networkidle' });
+ok((await page.locator('.scard.is-selected').count()) === 0, 'ningún servicio viene preseleccionado');
+
+await page.click('#aeropuerto');
 let texto = await page.inputValue('#preview-text');
-ok(
-  texto.includes('Retiro de cachureos') && texto.includes('Fletes pequeños'),
-  'preview inicial trae la preselección (cachureos + fletes)'
-);
+ok(texto.includes('Traslado al aeropuerto'), 'tocar una card agrega el servicio al mensaje');
 
 await page.click('#aeropuerto');
 texto = await page.inputValue('#preview-text');
-ok(texto.includes('Traslado al aeropuerto'), 'tocar una card agrega el servicio al mensaje');
-
-await page.click('#cachureos');
-texto = await page.inputValue('#preview-text');
-ok(!texto.includes('Retiro de cachureos'), 'tocar una card seleccionada la quita del mensaje');
+ok(!texto.includes('Traslado al aeropuerto'), 'tocar una card seleccionada la quita del mensaje');
 
 await page.fill('#f-comuna', 'Viña del Mar, Miraflores Alto');
 await page.fill('#f-detalle', 'Retiro de un refrigerador y un sofá');
@@ -60,10 +66,22 @@ ok(
   'el CTA lleva el mensaje armado y codificado (tildes/ñ ok)'
 );
 
-// 5) Admin: guardar pega, persistencia y validación
+// 5) Admin: bloqueo por contraseña (limpia la sesión del paso 1)
 await page.goto(BASE + '/admin', { waitUntil: 'networkidle' });
+await page.evaluate(() => sessionStorage.clear());
+await page.reload({ waitUntil: 'networkidle' });
+ok(await page.isVisible('#admin-lock'), 'admin parte bloqueado por contraseña');
+await page.fill('#lock-input', 'mala-clave');
+await page.click('.lock-btn');
+ok(await page.isVisible('#admin-lock'), 'clave incorrecta NO desbloquea');
+ok(await page.isVisible('#lock-error'), 'muestra error con clave incorrecta');
+await desbloquearAdmin();
+ok(await page.isHidden('#admin-lock'), 'clave correcta (zxc098) desbloquea el panel');
+
+// 6) Admin: guardar pega, persistencia y validación
 await page.evaluate(() => localStorage.clear());
 await page.reload({ waitUntil: 'networkidle' });
+await desbloquearAdmin();
 
 const filasAntes = await page.locator('.sol-fila').count();
 await page.fill('#p-cliente', 'Prueba QA');
