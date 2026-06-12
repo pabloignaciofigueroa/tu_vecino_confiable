@@ -1,0 +1,145 @@
+---
+import ServiceIcon from './ServiceIcon.astro';
+import { formatCLP } from '../scripts/format.js';
+
+// Fila de servicio destacado en Inicio: barra lateral de color, ícono circular,
+// precio destacado en el color de la categoría y chevron en cápsula (guía §8 y §13).
+interface Props {
+  servicio: {
+    id: string;
+    nombre: string;
+    descripcion: string;
+    icono: string;
+    precio: number | null;
+    precioNota: string | null;
+  };
+}
+const { servicio: s } = Astro.props;
+---
+
+<a class="srow" href={`/servicios#${s.id}`} style={`--cat: var(--cat-${s.id}); --cat-soft: var(--cat-${s.id}-soft);`}>
+  <span class="srow-bar" aria-hidden="true"></span>
+  <ServiceIcon icon={s.icono} cat={s.id} size={44} />
+  <span class="srow-body">
+    <strong class="srow-nombre">{s.nombre}</strong>
+    <small class="srow-desc">{s.descripcion}</small>
+  </span>
+  <span class="srow-right">
+    {
+      s.precio ? (
+        <>
+          <small class="srow-desde">Desde</small>
+          <strong class="srow-precio">{formatCLP(s.precio)}</strong>
+          {s.precioNota && <small class="srow-nota">{s.precioNota}</small>}
+        </>
+      ) : (
+        <span class="srow-cotizar">Cotizar</span>
+      )
+    }
+  </span>
+  <span class="srow-chev" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m9 5 7 7-7 7" />
+    </svg>
+  </span>
+</a>
+
+<style>
+  .srow {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 13px 12px 13px 18px;
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    border: 1px solid rgba(6, 22, 47, 0.05);
+    transition: transform 0.12s ease;
+  }
+
+  .srow:active {
+    transform: scale(0.98);
+  }
+
+  .srow-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    background: var(--cat);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .srow-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .srow-nombre {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  .srow-desc {
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .srow-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .srow-desde,
+  .srow-nota {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--ink-soft);
+  }
+
+  .srow-precio {
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--cat);
+  }
+
+  .srow-cotizar {
+    background: var(--yellow);
+    color: var(--navy);
+    font-size: 12.5px;
+    font-weight: 900;
+    padding: 7px 14px;
+    border-radius: 999px;
+    box-shadow: 0 2px 6px rgba(255, 196, 0, 0.4);
+  }
+
+  .srow-chev {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    border-radius: 50%;
+    background: var(--cat-soft);
+    color: var(--cat);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .srow-chev svg {
+    width: 13px;
+    height: 13px;
+  }
+</style>

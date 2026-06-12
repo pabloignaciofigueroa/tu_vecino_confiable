@@ -1,0 +1,670 @@
+---
+import AppShell from '../layouts/AppShell.astro';
+import MetricCard from '../components/MetricCard.astro';
+import ServiceIcon from '../components/ServiceIcon.astro';
+import admin from '../data/admin.json';
+import servicios from '../data/servicios.json';
+import { formatCLP } from '../scripts/format.js';
+
+const maxTop = Math.max(...admin.topServicios.map((t) => t.total));
+
+// estado → clase de badge
+const estadoClase = (estado: string) => `badge badge--${estado.toLowerCase()}`;
+---
+
+<AppShell
+  title="Admin — Control de Pegas | Tu Vecino Confiable"
+  description="Panel interno de Tu Vecino Confiable: registra, gestiona y da seguimiento a cada solicitud recibida por WhatsApp."
+  active="admin"
+  admin
+>
+  <!-- Título (guía §11.2) -->
+  <section class="ahead">
+    <div class="ahead-text">
+      <h1 class="ahead-titulo">Control de Pegas</h1>
+      <p class="ahead-sub">Registra, gestiona y da seguimiento a cada solicitud.</p>
+    </div>
+    <a class="btn-nueva" href="#nueva-pega">+ Nueva pega</a>
+  </section>
+
+  <!-- Métricas (guía §11.3) -->
+  <section class="metricas">
+    {admin.metricas.map((m) => <MetricCard titulo={m.titulo} valor={m.valor} nota={m.nota} tono={m.tono as any} icono={m.icono} />)}
+  </section>
+
+  <!-- Top servicios del mes (guía §11.4) -->
+  <section class="panel-dark">
+    <div class="panel-head">
+      <h2 class="panel-titulo">Top servicios del mes</h2>
+      <a class="panel-link" href="#solicitudes">Ver todo →</a>
+    </div>
+    <ol class="top-lista">
+      {
+        admin.topServicios.map((t, i) => (
+          <li class="top-fila" style={`--cat: var(--cat-${t.cat});`}>
+            <span class="top-num">{i + 1}</span>
+            <span class="top-nombre">{t.nombre}</span>
+            <span class="top-barra" aria-hidden="true">
+              <span class="top-avance" style={`width: ${Math.round((t.total / maxTop) * 100)}%;`} />
+            </span>
+            <span class="top-total">{t.total}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <!-- Solicitudes recientes (guía §11.5) -->
+  <section class="panel-dark" id="solicitudes">
+    <div class="panel-head">
+      <h2 class="panel-titulo">Solicitudes recientes</h2>
+      <span class="panel-filtro">Todas ▾</span>
+    </div>
+    <div class="sol-lista" id="sol-lista">
+      {
+        admin.solicitudes.map((s) => (
+          <article class="sol-fila" style={`--cat: var(--cat-${s.cat});`}>
+            <span class="sol-icon">
+              <ServiceIcon icon={s.icono} cat={s.cat} size={36} />
+            </span>
+            <span class="sol-info">
+              <strong class="sol-cliente">{s.cliente}</strong>
+              <small class="sol-detalle">
+                {s.servicio} · {s.comuna}
+              </small>
+              <small class="sol-fono">
+                {s.fecha} · {s.telefono}
+              </small>
+            </span>
+            <span class="sol-right">
+              <span class={estadoClase(s.estado)}>{s.estado}</span>
+              <strong class="sol-monto">{formatCLP(s.monto)}</strong>
+            </span>
+            <span class="sol-chev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m9 5 7 7-7 7" />
+              </svg>
+            </span>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Banco de íconos para las filas creadas por JS (clonados por el script) -->
+  <div id="icon-bank" hidden aria-hidden="true">
+    {
+      servicios.map((s) => (
+        <span data-icon-for={s.id} data-cat={s.id}>
+          <ServiceIcon icon={s.icono} cat={s.id} size={36} />
+        </span>
+      ))
+    }
+  </div>
+
+  <!-- Nueva pega: panel claro que corta el dashboard (guía §11.6) -->
+  <section class="nueva" id="nueva-pega">
+    <h2 class="nueva-titulo">Nueva pega</h2>
+    <p class="nueva-sub">Ingresa los datos de la solicitud recibida por WhatsApp.</p>
+
+    <form class="nueva-form" id="pega-form" novalidate>
+      <label class="campo">
+        <span class="campo-label">Cliente *</span>
+        <input type="text" id="p-cliente" name="cliente" placeholder="Nombre del cliente" required />
+      </label>
+      <div class="campo-fila">
+        <label class="campo">
+          <span class="campo-label">Teléfono</span>
+          <input type="tel" id="p-telefono" name="telefono" inputmode="tel" placeholder="+56 9 1234 5678" />
+        </label>
+        <label class="campo">
+          <span class="campo-label">Servicio *</span>
+          <select id="p-servicio" name="servicio" required>
+            <option value="">Selecciona un servicio</option>
+            {servicios.map((s) => <option value={s.id}>{s.nombre}</option>)}
+          </select>
+        </label>
+      </div>
+      <div class="campo-fila">
+        <label class="campo">
+          <span class="campo-label">Comuna</span>
+          <input type="text" id="p-comuna" name="comuna" placeholder="Ej: Quilpué" />
+        </label>
+        <label class="campo">
+          <span class="campo-label">Fecha</span>
+          <input type="date" id="p-fecha" name="fecha" />
+        </label>
+      </div>
+      <label class="campo">
+        <span class="campo-label">Monto cotizado</span>
+        <input type="number" id="p-monto" name="monto" inputmode="numeric" min="0" step="1000" placeholder="Ej: 30000" />
+      </label>
+      <label class="campo">
+        <span class="campo-label">Notas</span>
+        <textarea id="p-notas" name="notas" rows="2" placeholder="Dirección, observaciones, etc."></textarea>
+      </label>
+
+      <div class="nueva-acciones">
+        <button type="button" class="btn-cancelar" id="btn-cancelar">Cancelar</button>
+        <button type="submit" class="btn-guardar" id="btn-guardar">
+          <span id="btn-guardar-label">Guardar pega</span>
+        </button>
+      </div>
+    </form>
+  </section>
+</AppShell>
+
+<script>
+  import { formatCLP } from '../scripts/format.js';
+
+  const STORAGE_KEY = 'tvc_pegas_v1';
+
+  const lista = document.getElementById('sol-lista')!;
+  const iconBank = document.getElementById('icon-bank')!;
+  const form = document.getElementById('pega-form') as HTMLFormElement;
+  const fCliente = document.getElementById('p-cliente') as HTMLInputElement;
+  const fTelefono = document.getElementById('p-telefono') as HTMLInputElement;
+  const fServicio = document.getElementById('p-servicio') as HTMLSelectElement;
+  const fComuna = document.getElementById('p-comuna') as HTMLInputElement;
+  const fFecha = document.getElementById('p-fecha') as HTMLInputElement;
+  const fMonto = document.getElementById('p-monto') as HTMLInputElement;
+  const fNotas = document.getElementById('p-notas') as HTMLTextAreaElement;
+  const btnGuardar = document.getElementById('btn-guardar') as HTMLButtonElement;
+  const btnGuardarLabel = document.getElementById('btn-guardar-label')!;
+  const btnCancelar = document.getElementById('btn-cancelar')!;
+
+  type Pega = {
+    cliente: string;
+    telefono: string;
+    servicioId: string;
+    servicioNombre: string;
+    comuna: string;
+    fecha: string;
+    monto: number | null;
+    notas: string;
+  };
+
+  function leerPegas(): Pega[] {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    } catch {
+      return [];
+    }
+  }
+
+  function guardarPegas(pegas: Pega[]) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(pegas));
+  }
+
+  function fechaCorta(valor: string): string {
+    if (!valor) return 'hoy';
+    const [a, m, d] = valor.split('-').map(Number);
+    const fecha = new Date(a, m - 1, d);
+    return new Intl.DateTimeFormat('es-CL', { day: '2-digit', month: 'short' }).format(fecha).replace('.', '');
+  }
+
+  function crearFila(pega: Pega, animar: boolean): HTMLElement {
+    const fila = document.createElement('article');
+    fila.className = 'sol-fila';
+    fila.style.setProperty('--cat', `var(--cat-${pega.servicioId})`);
+    if (animar) fila.classList.add('sol-fila--nueva');
+
+    const icono = document.createElement('span');
+    icono.className = 'sol-icon';
+    const banco = iconBank.querySelector(`[data-icon-for="${pega.servicioId}"]`);
+    if (banco) icono.innerHTML = banco.innerHTML;
+
+    const info = document.createElement('span');
+    info.className = 'sol-info';
+    const cliente = document.createElement('strong');
+    cliente.className = 'sol-cliente';
+    cliente.textContent = pega.cliente;
+    const detalle = document.createElement('small');
+    detalle.className = 'sol-detalle';
+    detalle.textContent = `${pega.servicioNombre} · ${pega.comuna || 'sin comuna'}`;
+    const fono = document.createElement('small');
+    fono.className = 'sol-fono';
+    fono.textContent = `${fechaCorta(pega.fecha)}${pega.telefono ? ' · ' + pega.telefono : ''}`;
+    info.append(cliente, detalle, fono);
+
+    const right = document.createElement('span');
+    right.className = 'sol-right';
+    const badge = document.createElement('span');
+    badge.className = 'badge badge--nuevo';
+    badge.textContent = 'Nuevo';
+    const monto = document.createElement('strong');
+    monto.className = 'sol-monto';
+    monto.textContent = formatCLP(pega.monto);
+    right.append(badge, monto);
+
+    const chev = document.createElement('span');
+    chev.className = 'sol-chev';
+    chev.innerHTML =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg>';
+
+    fila.append(icono, info, right, chev);
+    return fila;
+  }
+
+  // Pegas guardadas en sesiones anteriores (demo sin backend)
+  leerPegas().forEach((pega) => lista.prepend(crearFila(pega, false)));
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    let valido = true;
+    [fCliente, fServicio].forEach((campo) => {
+      campo.classList.toggle('campo-error', !campo.value.trim());
+      if (!campo.value.trim()) valido = false;
+    });
+    if (!valido) return;
+
+    const pega: Pega = {
+      cliente: fCliente.value.trim(),
+      telefono: fTelefono.value.trim(),
+      servicioId: fServicio.value,
+      servicioNombre: fServicio.options[fServicio.selectedIndex].text,
+      comuna: fComuna.value.trim(),
+      fecha: fFecha.value,
+      monto: fMonto.value ? Number(fMonto.value) : null,
+      notas: fNotas.value.trim(),
+    };
+
+    lista.prepend(crearFila(pega, true));
+    guardarPegas([...leerPegas(), pega]);
+
+    // feedback del botón (guía §16)
+    btnGuardarLabel.textContent = '✓ Pega guardada';
+    btnGuardar.classList.add('btn-guardar--ok');
+    btnGuardar.disabled = true;
+    setTimeout(() => {
+      btnGuardarLabel.textContent = 'Guardar pega';
+      btnGuardar.classList.remove('btn-guardar--ok');
+      btnGuardar.disabled = false;
+    }, 1800);
+
+    form.reset();
+    document.getElementById('solicitudes')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  btnCancelar.addEventListener('click', () => {
+    form.reset();
+    [fCliente, fServicio].forEach((campo) => campo.classList.remove('campo-error'));
+  });
+
+  [fCliente, fServicio].forEach((campo) => {
+    campo.addEventListener('input', () => campo.classList.remove('campo-error'));
+  });
+</script>
+
+<style>
+  /* ---------- Título ---------- */
+  .ahead {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 22px 18px 16px;
+  }
+
+  .ahead-titulo {
+    color: #fff;
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.1;
+  }
+
+  .ahead-sub {
+    margin-top: 5px;
+    color: rgba(255, 249, 239, 0.7);
+    font-size: 12.5px;
+    font-weight: 600;
+    max-width: 230px;
+  }
+
+  .btn-nueva {
+    background: var(--yellow);
+    color: var(--navy);
+    font-size: 13px;
+    font-weight: 900;
+    border-radius: 999px;
+    padding: 11px 16px;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(255, 196, 0, 0.3);
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* ---------- Métricas ---------- */
+  .metricas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 11px;
+    padding: 0 18px 18px;
+  }
+
+  /* ---------- Paneles oscuros ---------- */
+  .panel-dark {
+    background: var(--petrol);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: var(--radius-lg);
+    margin: 0 18px 18px;
+    padding: 16px 14px;
+  }
+
+  .panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 13px;
+  }
+
+  .panel-titulo {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 900;
+  }
+
+  .panel-link,
+  .panel-filtro {
+    color: var(--sky);
+    font-size: 12px;
+    font-weight: 800;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 999px;
+    padding: 6px 11px;
+  }
+
+  /* ---------- Top servicios ---------- */
+  .top-lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+
+  .top-fila {
+    display: grid;
+    grid-template-columns: 26px minmax(86px, 0.9fr) 1fr 26px;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .top-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    background: var(--cat);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .top-nombre {
+    color: rgba(255, 249, 239, 0.92);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .top-barra {
+    height: 9px;
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+  }
+
+  .top-avance {
+    display: block;
+    height: 100%;
+    border-radius: 9px;
+    background: var(--cat);
+  }
+
+  .top-total {
+    color: #fff;
+    font-size: 13px;
+    font-weight: 900;
+    text-align: right;
+  }
+
+  /* ---------- Solicitudes ---------- */
+  .sol-lista {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sol-lista :global(.sol-fila) {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 2px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .sol-lista :global(.sol-fila:last-child) {
+    border-bottom: 0;
+  }
+
+  .sol-lista :global(.sol-fila--nueva) {
+    animation: fade-slide-in 0.4s ease-out;
+  }
+
+  .sol-lista :global(.sol-info) {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    line-height: 1.25;
+  }
+
+  .sol-lista :global(.sol-cliente) {
+    color: #fff;
+    font-size: 13.5px;
+    font-weight: 800;
+  }
+
+  .sol-lista :global(.sol-detalle) {
+    color: rgba(255, 249, 239, 0.75);
+    font-size: 11px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sol-lista :global(.sol-fono) {
+    color: rgba(255, 249, 239, 0.5);
+    font-size: 10.5px;
+    font-weight: 600;
+  }
+
+  .sol-lista :global(.sol-right) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+
+  .sol-lista :global(.sol-monto) {
+    color: #fff;
+    font-size: 13px;
+    font-weight: 900;
+  }
+
+  .sol-lista :global(.sol-chev) {
+    color: rgba(255, 249, 239, 0.4);
+  }
+
+  .sol-lista :global(.sol-chev svg) {
+    width: 15px;
+    height: 15px;
+    display: block;
+  }
+
+  /* badges de estado con color vivo (guía §11.5) */
+  .sol-lista :global(.badge) {
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-radius: 999px;
+    padding: 4px 9px;
+  }
+
+  .sol-lista :global(.badge--nuevo) {
+    background: rgba(59, 130, 246, 0.2);
+    color: #8ab8ff;
+  }
+
+  .sol-lista :global(.badge--cotizado) {
+    background: rgba(255, 196, 0, 0.16);
+    color: #ffd44d;
+  }
+
+  .sol-lista :global(.badge--agendado) {
+    background: rgba(20, 184, 166, 0.18);
+    color: #5fe0d2;
+  }
+
+  .sol-lista :global(.badge--realizado) {
+    background: rgba(52, 201, 142, 0.18);
+    color: #6fe3b2;
+  }
+
+  /* ---------- Nueva pega ---------- */
+  .nueva {
+    background: #eaf6ee;
+    border-radius: 26px 26px 0 0;
+    padding: 22px 18px 26px;
+  }
+
+  .nueva-titulo {
+    font-size: 19px;
+    font-weight: 900;
+    color: var(--ink);
+  }
+
+  .nueva-sub {
+    margin: 4px 0 16px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  .nueva-form {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+  }
+
+  .campo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .campo-label {
+    font-size: 12.5px;
+    font-weight: 800;
+    color: var(--ink);
+  }
+
+  .campo input,
+  .campo select,
+  .campo textarea {
+    background: #fff;
+    border: 1.5px solid rgba(47, 168, 108, 0.3);
+    border-radius: 13px;
+    padding: 11px 13px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    min-height: 46px;
+    width: 100%;
+  }
+
+  .campo select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2341527a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+  }
+
+  .campo textarea {
+    resize: vertical;
+  }
+
+  .campo input:focus-visible,
+  .campo select:focus-visible,
+  .campo textarea:focus-visible {
+    outline: 2.5px solid var(--cat-muebles);
+    outline-offset: 1px;
+    border-color: transparent;
+  }
+
+  .campo :global(.campo-error),
+  .campo input.campo-error,
+  .campo select.campo-error {
+    border-color: #e2557b;
+    outline: 2px solid rgba(226, 85, 123, 0.35);
+  }
+
+  .campo-fila {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 11px;
+  }
+
+  /* los date pickers y selects tienen min-width intrínseco; sin esto desbordan a 375px */
+  .campo-fila .campo,
+  .campo-fila input,
+  .campo-fila select {
+    min-width: 0;
+  }
+
+  .nueva-acciones {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 11px;
+    margin-top: 4px;
+  }
+
+  .btn-cancelar {
+    border: 2px solid rgba(18, 36, 68, 0.25);
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 800;
+    border-radius: 14px;
+    min-height: 50px;
+    background: transparent;
+  }
+
+  /* verde para diferenciar la acción admin del CTA público (guía §11.6) */
+  .btn-guardar {
+    background: var(--cat-muebles);
+    color: #fff;
+    font-size: 14.5px;
+    font-weight: 900;
+    border-radius: 14px;
+    min-height: 50px;
+    box-shadow: 0 5px 14px rgba(47, 168, 108, 0.35);
+    transition: transform 0.12s ease, background 0.2s ease;
+  }
+
+  .btn-guardar:active {
+    transform: scale(0.98);
+  }
+
+  .btn-guardar--ok {
+    background: #1f9d63;
+  }
+</style>

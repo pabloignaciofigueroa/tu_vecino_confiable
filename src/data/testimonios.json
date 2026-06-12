@@ -1,0 +1,20 @@
+[
+  {
+    "texto": "Excelente servicio, puntual y muy cuidadoso con todo. 100% recomendado.",
+    "nombre": "María G.",
+    "comuna": "Viña del Mar",
+    "estrellas": 5
+  },
+  {
+    "texto": "Me armó unas repisas a medida, quedó perfecto. Muy profesional.",
+    "nombre": "Carlos R.",
+    "comuna": "Villa Alemana",
+    "estrellas": 5
+  },
+  {
+    "texto": "Retiró un montón de cosas que ya no usábamos. Rápido y confiable.",
+    "nombre": "Andrea L.",
+    "comuna": "Quilpué",
+    "estrellas": 5
+  }
+]

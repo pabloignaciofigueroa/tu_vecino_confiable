@@ -1,0 +1,208 @@
+---
+import { Image } from 'astro:assets';
+import jorgeAvatar from '../assets/img/jorge-avatar.png';
+import { buildWhatsAppUrl } from '../scripts/whatsapp.js';
+
+// Header fijo azul noche: logo casa amarilla + marca. En Admin va el chip de
+// usuario en vez de la hamburguesa (guía §4 y §11).
+interface Props {
+  admin?: boolean;
+}
+const { admin = false } = Astro.props;
+const waUrl = buildWhatsAppUrl();
+---
+
+<header class="header">
+  <a class="brand" href="/" aria-label="Tu Vecino Confiable — Inicio">
+    <span class="brand-logo">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="16" fill="var(--yellow)"></rect>
+        <path
+          d="M32 13 10 31h6v19a2 2 0 0 0 2 2h10V40a4 4 0 0 1 8 0v12h10a2 2 0 0 0 2-2V31h6L32 13z"
+          fill="var(--navy)"></path>
+      </svg>
+    </span>
+    <span class="brand-name">Tu Vecino<br />Confiable</span>
+  </a>
+
+  {
+    admin ? (
+      <div class="user-chip">
+        <Image src={jorgeAvatar} alt="Foto de Jorge" width={76} height={76} class="user-pic" />
+        <span class="user-meta">
+          <strong>Jorge</strong>
+          <small>Administrador</small>
+        </span>
+      </div>
+    ) : (
+      <button class="menu-btn" id="menu-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-sheet">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 7h16" />
+          <path d="M4 12h16" />
+          <path d="M4 17h16" />
+        </svg>
+      </button>
+    )
+  }
+</header>
+
+{
+  !admin && (
+    <nav class="menu-sheet" id="menu-sheet" hidden aria-label="Menú principal">
+      <a href="/">Inicio</a>
+      <a href="/servicios">Servicios</a>
+      <a href="/opiniones">Opiniones</a>
+      <a href="/admin">Admin</a>
+      <a class="menu-wa" href={waUrl} target="_blank" rel="noopener">
+        Cotizar por WhatsApp
+      </a>
+    </nav>
+  )
+}
+
+{
+  !admin && (
+    <script is:inline>
+      (function () {
+        var btn = document.getElementById('menu-btn');
+        var sheet = document.getElementById('menu-sheet');
+        if (!btn || !sheet) return;
+        btn.addEventListener('click', function () {
+          var abierto = !sheet.hidden;
+          sheet.hidden = abierto;
+          btn.setAttribute('aria-expanded', String(!abierto));
+        });
+      })();
+    </script>
+  )
+}
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+    background: var(--navy);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .brand-logo svg {
+    width: 38px;
+    height: 38px;
+    display: block;
+    border-radius: 10px;
+  }
+
+  .brand-name {
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 13px;
+    line-height: 1.15;
+    letter-spacing: 0.06em;
+  }
+
+  .menu-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border-radius: 12px;
+  }
+
+  .menu-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .menu-btn:active {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .menu-sheet[hidden] {
+    display: none;
+  }
+
+  .menu-sheet {
+    position: sticky;
+    top: var(--header-h);
+    z-index: 39;
+    background: var(--petrol);
+    display: flex;
+    flex-direction: column;
+    padding: 8px 14px 14px;
+    gap: 2px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    animation: fade-slide-in 0.18s ease-out;
+  }
+
+  .menu-sheet a {
+    color: #fff;
+    font-weight: 800;
+    padding: 12px 10px;
+    border-radius: 12px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-sheet a:active {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .menu-sheet .menu-wa {
+    background: var(--yellow);
+    color: var(--navy);
+    justify-content: center;
+    margin-top: 6px;
+  }
+
+  .user-chip {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    padding: 4px 12px 4px 4px;
+  }
+
+  .user-chip :global(.user-pic) {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--yellow);
+  }
+
+  .user-meta {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+
+  .user-meta strong {
+    color: #fff;
+    font-size: 13px;
+    font-weight: 900;
+  }
+
+  .user-meta small {
+    color: var(--sky);
+    font-size: 10.5px;
+    font-weight: 700;
+  }
+</style>

@@ -1,0 +1,341 @@
+---
+import { Image } from 'astro:assets';
+import AppShell from '../layouts/AppShell.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import ServiceRow from '../components/ServiceRow.astro';
+import servicios from '../data/servicios.json';
+import heroFoto from '../assets/img/hero-camioneta.png';
+
+const destacados = servicios.filter((s) => s.destacado);
+---
+
+<AppShell
+  title="Tu Vecino Confiable — Fletes y traslados en Santiago y la V Región"
+  description="Jorge Letelier te ayuda con fletes pequeños, traslados al aeropuerto, retiro de cachureos y soluciones prácticas para la casa. Cotiza rápido por WhatsApp."
+  active="inicio"
+>
+  <!-- Hero cálido: azul noche que respira hacia crema/blush (guía §8) -->
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <h1 class="hero-titulo">Estoy aquí<br />para ayudarte</h1>
+        <p class="hero-frase">“Si lo necesitas, yo lo resuelvo”</p>
+        <ul class="hero-valores">
+          <li><span class="dot dot-blush" aria-hidden="true"></span>Buena onda</li>
+          <li><span class="dot dot-yellow" aria-hidden="true"></span>Precio justo</li>
+          <li class="valor-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m5 12.5 4.5 4.5L19 7" />
+            </svg>
+            Servicio garantizado
+          </li>
+        </ul>
+      </div>
+      <div class="hero-foto">
+        <Image
+          src={heroFoto}
+          alt="Jorge sobre su camioneta roja cargada con muebles"
+          width={640}
+          densities={[1, 2]}
+          loading="eager"
+          fetchpriority="high"
+        />
+        <span class="hero-badge" aria-label="Servicio garantizado">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9 2.9-6z" />
+          </svg>
+          Servicio<br />garantizado
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chips de cobertura sobre crema (guía §8.3) -->
+  <section class="cobertura texture-dots">
+    <a class="chip-cobertura" href="/servicios">
+      <span class="chip-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 21s-6.5-6.6-6.5-11A6.5 6.5 0 0 1 12 3.5 6.5 6.5 0 0 1 18.5 10c0 4.4-6.5 11-6.5 11z" />
+          <circle cx="12" cy="10" r="2.4" />
+        </svg>
+      </span>
+      <span class="chip-texto"><strong>Atención en Santiago</strong> y alrededores</span>
+    </a>
+    <a class="chip-cobertura" href="/servicios#vina">
+      <span class="chip-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 7h11v9H3z" />
+          <path d="M14 10h4l3 3v3h-7" />
+          <circle cx="7" cy="18" r="1.7" />
+          <circle cx="17" cy="18" r="1.7" />
+        </svg>
+      </span>
+      <span class="chip-texto"><strong>Viajes especiales a Viña del Mar / Valparaíso</strong> previa cotización</span>
+    </a>
+  </section>
+
+  <!-- Servicios destacados sobre lila suave (guía §8.4) -->
+  <section class="destacados">
+    <SectionTitle
+      title="Servicios destacados"
+      underline="var(--purple)"
+      linkHref="/servicios"
+      linkLabel="Ver todos los servicios →"
+    />
+    <div class="destacados-lista">
+      {destacados.map((s) => <ServiceRow servicio={s} />)}
+    </div>
+  </section>
+
+  <!-- Trust strip sobre menta (guía §8.5) -->
+  <section class="trust">
+    <div class="trust-item">
+      <span class="trust-icon" style="--t: #e2557b;" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 21s-7.5-4.9-9.5-9.2C1 8.4 3 5 6.4 5c2 0 3.4 1 4.3 2.4l1.3 1.9 1.3-1.9C14.2 6 15.6 5 17.6 5 21 5 23 8.4 21.5 11.8 19.5 16.1 12 21 12 21z" />
+        </svg>
+      </span>
+      <span>Trato cercano</span>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon" style="--t: #e8a50c;" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 7v5l3.5 2" />
+        </svg>
+      </span>
+      <span>Puntualidad</span>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon" style="--t: #1f9d63;" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2.5 4.5 5.5v6c0 4.6 3.2 8 7.5 9.5 4.3-1.5 7.5-4.9 7.5-9.5v-6L12 2.5z" />
+          <path d="m8.8 12 2.2 2.2 4.2-4.4" />
+        </svg>
+      </span>
+      <span>Todo asegurado</span>
+    </div>
+  </section>
+</AppShell>
+
+<style>
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    padding: 26px 18px 30px;
+    background:
+      radial-gradient(120% 90% at 88% 100%, rgba(247, 166, 120, 0.4) 0%, rgba(247, 183, 183, 0.16) 38%, transparent 65%),
+      linear-gradient(170deg, var(--navy) 0%, var(--navy-2) 55%, #14213f 100%);
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .hero-titulo {
+    color: #fff;
+    font-size: 26px;
+    line-height: 1.12;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-frase {
+    margin-top: 10px;
+    color: var(--yellow);
+    font-style: italic;
+    font-weight: 900;
+    font-size: 15.5px;
+    line-height: 1.3;
+  }
+
+  .hero-valores {
+    list-style: none;
+    margin: 14px 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px 14px;
+    color: var(--white-warm);
+    font-size: 12.5px;
+    font-weight: 700;
+  }
+
+  .hero-valores li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .dot-blush {
+    background: var(--blush);
+  }
+
+  .dot-yellow {
+    background: var(--yellow);
+  }
+
+  .valor-check {
+    color: var(--mint-2);
+  }
+
+  .valor-check svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .hero-foto {
+    position: relative;
+  }
+
+  .hero-foto :global(img) {
+    width: 100%;
+    height: 168px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  }
+
+  /* badge sticker circular (guía §7 y §14) */
+  .hero-badge {
+    position: absolute;
+    right: -6px;
+    bottom: -12px;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: var(--yellow);
+    color: var(--navy);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 8.5px;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    line-height: 1.25;
+    transform: rotate(-8deg);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+    border: 3px solid var(--navy-2);
+  }
+
+  .hero-badge svg {
+    width: 15px;
+    height: 15px;
+    margin-bottom: 1px;
+  }
+
+  /* ---------- Cobertura ---------- */
+  .cobertura {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 18px;
+    background: var(--cream);
+    border-radius: 26px 26px 0 0;
+    margin-top: -14px;
+    position: relative;
+  }
+
+  .chip-cobertura {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 11px 12px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid rgba(242, 118, 46, 0.14);
+    min-height: 56px;
+  }
+
+  .chip-icon {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    border-radius: 50%;
+    background: var(--blush-2);
+    color: #e2557b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .chip-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .chip-texto {
+    font-size: 11.5px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  .chip-texto strong {
+    color: var(--ink);
+    font-weight: 800;
+  }
+
+  /* ---------- Servicios destacados ---------- */
+  .destacados {
+    background: #ede7fa;
+    padding: 22px 18px 24px;
+  }
+
+  .destacados-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* ---------- Trust strip ---------- */
+  .trust {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    background: var(--mint);
+    padding: 18px 16px 22px;
+  }
+
+  .trust-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--ink);
+  }
+
+  .trust-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--t);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-card);
+  }
+
+  .trust-icon svg {
+    width: 19px;
+    height: 19px;
+  }
+</style>

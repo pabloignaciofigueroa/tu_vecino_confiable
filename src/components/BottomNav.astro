@@ -1,0 +1,120 @@
+---
+// Menú inferior fijo, orden obligatorio: Inicio / Servicios / Opiniones / Admin.
+// Ítem activo en amarillo, sube 2px (guía §4 y §16).
+interface Props {
+  active: 'inicio' | 'servicios' | 'opiniones' | 'admin';
+}
+const { active } = Astro.props;
+
+const items = [
+  { id: 'inicio', label: 'Inicio', href: '/' },
+  { id: 'servicios', label: 'Servicios', href: '/servicios' },
+  { id: 'opiniones', label: 'Opiniones', href: '/opiniones' },
+  { id: 'admin', label: 'Admin', href: '/admin' },
+];
+---
+
+<nav class="bottom-nav" aria-label="Navegación principal">
+  {
+    items.map((item) => (
+      <a
+        href={item.href}
+        class:list={['nav-item', { 'is-active': item.id === active }]}
+        aria-current={item.id === active ? 'page' : undefined}
+      >
+        <span class="nav-icon" aria-hidden="true">
+          {item.id === 'inicio' && (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m3 11 9-8 9 8" />
+              <path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10" />
+            </svg>
+          )}
+          {item.id === 'servicios' && (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 7h11v9H3z" />
+              <path d="M14 10h4l3 3v3h-7" />
+              <circle cx="7" cy="18" r="1.7" />
+              <circle cx="17" cy="18" r="1.7" />
+            </svg>
+          )}
+          {item.id === 'opiniones' && (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m12 3 2.7 5.6 6.1.8-4.5 4.3 1.1 6L12 16.8l-5.4 2.9 1.1-6-4.5-4.3 6.1-.8L12 3z" />
+            </svg>
+          )}
+          {item.id === 'admin' && (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4.5 20.5c.8-3.6 3.9-5.5 7.5-5.5s6.7 1.9 7.5 5.5" />
+            </svg>
+          )}
+        </span>
+        <span class="nav-label">{item.label}</span>
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  .bottom-nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: var(--navy);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 6px 8px calc(8px + env(safe-area-inset-bottom));
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 6px 4px;
+    min-height: 52px;
+    color: rgba(255, 255, 255, 0.62);
+    border-radius: 12px;
+    transition: color 0.15s ease;
+  }
+
+  .nav-icon {
+    display: block;
+    transition: transform 0.18s ease;
+  }
+
+  .nav-icon svg {
+    width: 23px;
+    height: 23px;
+    display: block;
+  }
+
+  .nav-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+
+  .nav-item.is-active {
+    color: var(--yellow);
+    position: relative;
+  }
+
+  .nav-item.is-active .nav-icon {
+    transform: translateY(-2px);
+  }
+
+  .nav-item.is-active .nav-label {
+    font-weight: 900;
+  }
+
+  /* pequeña línea/glow bajo el ítem activo (guía §16) */
+  .nav-item.is-active::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    width: 18px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--yellow);
+    box-shadow: 0 0 10px rgba(255, 196, 0, 0.7);
+  }
+</style>

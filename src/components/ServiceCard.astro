@@ -1,0 +1,102 @@
+---
+import ServiceIcon from './ServiceIcon.astro';
+
+// Tile seleccionable de la pantalla Servicios: fondo pastel de la categoría,
+// borde amarillo + check cuando está seleccionado (guía §9 y §13).
+// La selección la maneja el script de la página vía data-attributes.
+interface Props {
+  servicio: {
+    id: string;
+    nombre: string;
+    descripcion: string;
+    icono: string;
+  };
+  selected?: boolean;
+}
+const { servicio: s, selected = false } = Astro.props;
+---
+
+<button
+  type="button"
+  class:list={['scard', { 'is-selected': selected }]}
+  id={s.id}
+  data-service-id={s.id}
+  data-service-name={s.nombre}
+  aria-pressed={selected ? 'true' : 'false'}
+  style={`--cat: var(--cat-${s.id}); --cat-soft: var(--cat-${s.id}-soft);`}
+>
+  <ServiceIcon icon={s.icono} cat={s.id} size={42} />
+  <span class="scard-nombre">{s.nombre}</span>
+  <span class="scard-desc">{s.descripcion}</span>
+  <span class="scard-check" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m5 12.5 4.5 4.5L19 7" />
+    </svg>
+  </span>
+</button>
+
+<style>
+  .scard {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+    text-align: left;
+    background: var(--cat-soft);
+    border: 2.5px solid transparent;
+    border-radius: var(--radius);
+    padding: 14px 13px;
+    min-height: 124px;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.12s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .scard:active {
+    transform: scale(0.98);
+  }
+
+  .scard-nombre {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  .scard-desc {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    line-height: 1.3;
+  }
+
+  .scard-check {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--yellow);
+    color: var(--navy);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(255, 196, 0, 0.5);
+  }
+
+  .scard-check svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .scard.is-selected {
+    border-color: var(--yellow);
+    box-shadow: 0 4px 14px rgba(255, 196, 0, 0.28);
+  }
+
+  .scard.is-selected .scard-check {
+    display: flex;
+    animation: pop-in 0.22s ease-out;
+  }
+</style>

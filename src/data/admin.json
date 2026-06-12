@@ -1,0 +1,100 @@
+{
+  "metricas": [
+    {
+      "id": "solicitudes",
+      "titulo": "Solicitudes del mes",
+      "valor": "32",
+      "nota": "12 nuevas esta semana",
+      "tono": "blush",
+      "icono": "clipboard"
+    },
+    {
+      "id": "realizados",
+      "titulo": "Trabajos realizados",
+      "valor": "18",
+      "nota": "56% del total del mes",
+      "tono": "mint",
+      "icono": "check"
+    },
+    {
+      "id": "ingreso",
+      "titulo": "Ingreso estimado",
+      "valor": "$1.245.000",
+      "nota": "+18% vs. mes anterior",
+      "tono": "lila",
+      "icono": "moneda"
+    },
+    {
+      "id": "top",
+      "titulo": "Servicio más pedido",
+      "valor": "Fletes pequeños",
+      "nota": "9 solicitudes",
+      "tono": "peach",
+      "icono": "estrella"
+    }
+  ],
+  "topServicios": [
+    { "cat": "fletes", "nombre": "Fletes pequeños", "total": 9 },
+    { "cat": "cachureos", "nombre": "Retiro de cachureos", "total": 7 },
+    { "cat": "aeropuerto", "nombre": "Traslado al aeropuerto", "total": 5 },
+    { "cat": "tramites", "nombre": "Traslado a trámites", "total": 4 },
+    { "cat": "fiestas", "nombre": "Fiestas y matrimonios", "total": 3 }
+  ],
+  "solicitudes": [
+    {
+      "fecha": "04 jun",
+      "cliente": "María G.",
+      "telefono": "+56 9 1234 5678",
+      "servicio": "Fletes pequeños",
+      "cat": "fletes",
+      "icono": "camion",
+      "comuna": "Viña del Mar",
+      "estado": "Cotizado",
+      "monto": 30000
+    },
+    {
+      "fecha": "03 jun",
+      "cliente": "Carlos R.",
+      "telefono": "+56 9 2345 6789",
+      "servicio": "Retiro de cachureos",
+      "cat": "cachureos",
+      "icono": "sillon",
+      "comuna": "Valparaíso",
+      "estado": "Agendado",
+      "monto": 25000
+    },
+    {
+      "fecha": "03 jun",
+      "cliente": "Camila P.",
+      "telefono": "+56 9 3456 7890",
+      "servicio": "Traslado al aeropuerto",
+      "cat": "aeropuerto",
+      "icono": "avion",
+      "comuna": "Villa Alemana",
+      "estado": "Realizado",
+      "monto": 35000
+    },
+    {
+      "fecha": "02 jun",
+      "cliente": "Roberto A.",
+      "telefono": "+56 9 4567 8901",
+      "servicio": "Traslado a trámites",
+      "cat": "tramites",
+      "icono": "clipboard",
+      "comuna": "Quilpué",
+      "estado": "Realizado",
+      "monto": 20000
+    },
+    {
+      "fecha": "02 jun",
+      "cliente": "Andrea L.",
+      "telefono": "+56 9 5678 9012",
+      "servicio": "Fiestas y matrimonios",
+      "cat": "fiestas",
+      "icono": "copas",
+      "comuna": "Concón",
+      "estado": "Nuevo",
+      "monto": null
+    }
+  ]
+}

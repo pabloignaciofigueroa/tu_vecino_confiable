@@ -1,0 +1,15 @@
+---
+// Cabecera de sección: titular con underline corto de color + link opcional.
+interface Props {
+  title: string;
+  underline?: string;
+  linkHref?: string;
+  linkLabel?: string;
+}
+const { title, underline = 'var(--yellow)', linkHref, linkLabel } = Astro.props;
+---
+
+<div class="section-head">
+  <h2 class="section-title" style={`--underline: ${underline};`}>{title}</h2>
+  {linkHref && linkLabel && <a class="section-link" href={linkHref}>{linkLabel}</a>}
+</div>

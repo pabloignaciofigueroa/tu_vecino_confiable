@@ -1,0 +1,572 @@
+---
+import { Image } from 'astro:assets';
+import AppShell from '../layouts/AppShell.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import servicios from '../data/servicios.json';
+import jorgeAvatar from '../assets/img/jorge-avatar.png';
+import { WA_DISPLAY } from '../scripts/whatsapp.js';
+
+// Preselección igual al mockup 002: cachureos + fletes.
+const preseleccionados = ['cachureos', 'fletes'];
+---
+
+<AppShell
+  title="Servicios — Tu Vecino Confiable | Fletes, traslados y más"
+  description="Elige lo que necesitas resolver: fletes pequeños, traslados al aeropuerto, retiro de cachureos, armado de muebles y más. Cotiza por WhatsApp."
+  active="servicios"
+>
+  <!-- Encabezado claro con chip de Jorge (guía §9.2) -->
+  <section class="serv-head texture-dots">
+    <div class="serv-head-text">
+      <h1 class="serv-titulo">Servicios</h1>
+      <p class="serv-sub">Elige lo que necesitas resolver</p>
+    </div>
+    <div class="jorge-chip">
+      <Image src={jorgeAvatar} alt="Foto de Jorge Letelier" width={96} height={96} class="jorge-pic" />
+      <span class="jorge-meta">
+        <strong>Jorge Letelier</strong>
+        <small>Tu vecino de confianza</small>
+        <span class="jorge-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m5 12.5 4.5 4.5L19 7" />
+          </svg>
+          Servicio garantizado
+        </span>
+      </span>
+    </div>
+  </section>
+
+  <!-- Grid de los 9 servicios (guía §9.3) -->
+  <section class="serv-grid-wrap">
+    <div class="serv-grid">
+      {servicios.map((s) => <ServiceCard servicio={s} selected={preseleccionados.includes(s.id)} />)}
+    </div>
+  </section>
+
+  <!-- Formulario sobre crema cálido (guía §9.4) -->
+  <section class="form-wrap">
+    <h2 class="form-titulo">Cuéntame qué necesitas resolver</h2>
+    <p class="form-sub">Unos datos rápidos y te preparo la mejor solución.</p>
+
+    <form class="form" id="cotiza-form" autocomplete="on">
+      <label class="campo">
+        <span class="campo-label">Comuna / sector</span>
+        <input type="text" id="f-comuna" name="comuna" placeholder="Ej: Viña del Mar, Miraflores Alto" />
+      </label>
+      <div class="campo-fila">
+        <label class="campo">
+          <span class="campo-label">Fecha</span>
+          <input type="date" id="f-fecha" name="fecha" />
+        </label>
+        <label class="campo">
+          <span class="campo-label">Hora</span>
+          <input type="time" id="f-hora" name="hora" />
+        </label>
+      </div>
+      <label class="campo">
+        <span class="campo-label">Descripción breve</span>
+        <textarea
+          id="f-detalle"
+          name="detalle"
+          rows="3"
+          placeholder="Ej: Retiro de un refrigerador y un sofá desde mi casa"></textarea>
+      </label>
+
+      <div class="campo">
+        <span class="campo-label">Sube una foto (opcional)</span>
+        <label class="fotozona" for="f-fotos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 8h2.5L9 5h6l2.5 3H20a1.5 1.5 0 0 1 1.5 1.5V19a1.5 1.5 0 0 1-1.5 1.5H4A1.5 1.5 0 0 1 2.5 19V9.5A1.5 1.5 0 0 1 4 8z" />
+          <circle cx="12" cy="13.5" r="3.6" />
+          </svg>
+          <span>Toca para agregar fotos<br /><small>JPG o PNG hasta 10 MB</small></span>
+        </label>
+        <input class="sr-only" type="file" id="f-fotos" accept="image/*" multiple />
+        <div class="foto-thumbs" id="foto-thumbs"></div>
+        <p class="foto-nota">Las fotos se adjuntan directo en el chat de WhatsApp al enviar el mensaje.</p>
+      </div>
+    </form>
+  </section>
+
+  <!-- Preview WhatsApp sobre lila (guía §9.5) -->
+  <section class="preview-wrap">
+    <h2 class="preview-titulo">Mensaje que se enviará por WhatsApp</h2>
+    <div class="preview-card">
+      <div class="preview-head">
+        <span class="preview-wa-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z">
+            </path>
+          </svg>
+        </span>
+        <span class="preview-num">
+          <strong>WhatsApp</strong>
+          <small>{WA_DISPLAY}</small>
+        </span>
+        <button type="button" class="preview-edit" id="btn-editar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M16.5 3.7a2.1 2.1 0 0 1 3 3L8 18.2l-4 1 1-4L16.5 3.7z" />
+          </svg>
+          <span id="btn-editar-label">Editar mensaje</span>
+        </button>
+      </div>
+      <textarea class="preview-text" id="preview-text" rows="6" readonly aria-label="Mensaje para WhatsApp"></textarea>
+      <p class="preview-nota" id="preview-nota" hidden>
+        Mensaje personalizado: ya no se actualiza solo con el formulario.
+      </p>
+    </div>
+  </section>
+</AppShell>
+
+<script>
+  import { buildWhatsAppMessage, WA_NUMBER } from '../scripts/whatsapp.js';
+
+  const cards = Array.from(document.querySelectorAll('.scard'));
+  const inputComuna = document.getElementById('f-comuna') as HTMLInputElement;
+  const inputFecha = document.getElementById('f-fecha') as HTMLInputElement;
+  const inputHora = document.getElementById('f-hora') as HTMLInputElement;
+  const inputDetalle = document.getElementById('f-detalle') as HTMLTextAreaElement;
+  const inputFotos = document.getElementById('f-fotos') as HTMLInputElement;
+  const thumbs = document.getElementById('foto-thumbs')!;
+  const preview = document.getElementById('preview-text') as HTMLTextAreaElement;
+  const previewNota = document.getElementById('preview-nota')!;
+  const btnEditar = document.getElementById('btn-editar')!;
+  const cta = document.getElementById('cta-wa') as HTMLAnchorElement;
+
+  let mensajeManual = false;
+
+  function fechaLegible(valor: string): string {
+    if (!valor) return '';
+    const [a, m, d] = valor.split('-').map(Number);
+    const fecha = new Date(a, m - 1, d);
+    return new Intl.DateTimeFormat('es-CL', { weekday: 'long', day: 'numeric', month: 'long' }).format(fecha);
+  }
+
+  function serviciosSeleccionados(): string[] {
+    return cards
+      .filter((c) => c.classList.contains('is-selected'))
+      .map((c) => (c as HTMLElement).dataset.serviceName || '');
+  }
+
+  function actualizar() {
+    if (!mensajeManual) {
+      preview.value = buildWhatsAppMessage({
+        servicios: serviciosSeleccionados(),
+        comuna: inputComuna.value.trim(),
+        fecha: fechaLegible(inputFecha.value),
+        hora: inputHora.value,
+        detalle: inputDetalle.value.trim(),
+      });
+    }
+    cta.href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(preview.value)}`;
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', () => {
+      card.classList.toggle('is-selected');
+      card.setAttribute('aria-pressed', String(card.classList.contains('is-selected')));
+      actualizar();
+    });
+  });
+
+  [inputComuna, inputFecha, inputHora, inputDetalle].forEach((el) => {
+    el.addEventListener('input', actualizar);
+  });
+
+  const btnEditarLabel = document.getElementById('btn-editar-label')!;
+
+  btnEditar.addEventListener('click', () => {
+    if (preview.readOnly) {
+      preview.readOnly = false;
+      preview.focus();
+      mensajeManual = true;
+      previewNota.hidden = false;
+      btnEditarLabel.textContent = 'Listo';
+    } else {
+      preview.readOnly = true;
+      btnEditarLabel.textContent = 'Editar mensaje';
+      actualizar();
+    }
+  });
+
+  preview.addEventListener('input', actualizar);
+
+  // Miniaturas de fotos, solo en el navegador (se adjuntan a mano en WhatsApp)
+  inputFotos.addEventListener('change', () => {
+    thumbs.innerHTML = '';
+    Array.from(inputFotos.files || []).forEach((file, i) => {
+      const url = URL.createObjectURL(file);
+      const cont = document.createElement('span');
+      cont.className = 'foto-thumb';
+      const img = document.createElement('img');
+      img.src = url;
+      img.alt = `Foto ${i + 1}`;
+      const x = document.createElement('button');
+      x.type = 'button';
+      x.className = 'foto-x';
+      x.setAttribute('aria-label', 'Quitar foto');
+      x.textContent = '×';
+      x.addEventListener('click', () => {
+        URL.revokeObjectURL(url);
+        cont.remove();
+      });
+      cont.append(img, x);
+      thumbs.append(cont);
+    });
+  });
+
+  actualizar();
+</script>
+
+<style>
+  /* ---------- Encabezado ---------- */
+  .serv-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 22px 18px 18px;
+    background: linear-gradient(160deg, var(--blush-2) 0%, var(--lila) 100%);
+    border-radius: 0 0 26px 26px;
+  }
+
+  .serv-titulo {
+    font-size: 30px;
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1.05;
+  }
+
+  .serv-sub {
+    margin-top: 5px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--ink-soft);
+  }
+
+  .jorge-chip {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    background: #fff;
+    border-radius: 18px;
+    padding: 9px 12px 9px 9px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .jorge-chip :global(.jorge-pic) {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--yellow);
+  }
+
+  .jorge-meta {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+
+  .jorge-meta strong {
+    font-size: 12.5px;
+    font-weight: 900;
+    color: var(--ink);
+  }
+
+  .jorge-meta small {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  .jorge-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    margin-top: 3px;
+    font-size: 9.5px;
+    font-weight: 800;
+    color: #1f9d63;
+  }
+
+  .jorge-badge svg {
+    width: 11px;
+    height: 11px;
+  }
+
+  /* ---------- Grid ---------- */
+  .serv-grid-wrap {
+    padding: 18px;
+    background: var(--white-warm);
+  }
+
+  .serv-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 11px;
+  }
+
+  /* ---------- Formulario ---------- */
+  .form-wrap {
+    background: var(--cream);
+    padding: 22px 18px 24px;
+    border-radius: 26px 26px 0 0;
+  }
+
+  .form-titulo {
+    font-size: 19px;
+    font-weight: 900;
+    color: var(--ink);
+  }
+
+  .form-sub {
+    margin: 4px 0 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+  }
+
+  .campo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .campo-label {
+    font-size: 12.5px;
+    font-weight: 800;
+    color: var(--ink);
+  }
+
+  .campo input,
+  .campo textarea {
+    background: #fff;
+    border: 1.5px solid rgba(242, 118, 46, 0.28);
+    border-radius: 13px;
+    padding: 11px 13px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    min-height: 46px;
+    width: 100%;
+  }
+
+  .campo textarea {
+    resize: vertical;
+  }
+
+  .campo input:focus-visible,
+  .campo textarea:focus-visible {
+    outline: 2.5px solid var(--yellow);
+    outline-offset: 1px;
+    border-color: transparent;
+  }
+
+  .campo-fila {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 11px;
+  }
+
+  /* los date/time pickers tienen min-width intrínseco; sin esto desbordan a 375px */
+  .campo-fila .campo {
+    min-width: 0;
+  }
+
+  .campo-fila input {
+    min-width: 0;
+  }
+
+  .fotozona {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border: 2px dashed var(--peach-2);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.65);
+    padding: 16px 14px;
+    color: var(--ink-soft);
+    font-size: 12.5px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.35;
+    cursor: pointer;
+    min-height: 64px;
+  }
+
+  .fotozona svg {
+    width: 27px;
+    height: 27px;
+    color: var(--peach-2);
+  }
+
+  .fotozona small {
+    font-weight: 600;
+    opacity: 0.75;
+  }
+
+  .foto-thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+  }
+
+  .foto-thumbs:empty {
+    display: none;
+  }
+
+  .foto-thumbs :global(.foto-thumb) {
+    position: relative;
+    width: 62px;
+    height: 62px;
+  }
+
+  .foto-thumbs :global(.foto-thumb img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid #fff;
+    box-shadow: var(--shadow-card);
+  }
+
+  .foto-thumbs :global(.foto-x) {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: #fff;
+    font-size: 14px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .foto-nota {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    opacity: 0.85;
+  }
+
+  /* ---------- Preview WhatsApp ---------- */
+  .preview-wrap {
+    background: var(--lila);
+    padding: 22px 18px 26px;
+  }
+
+  .preview-titulo {
+    font-size: 16.5px;
+    font-weight: 900;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .preview-card {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    padding: 13px;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .preview-head {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .preview-wa-icon {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    border-radius: 50%;
+    background: #25d366;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .preview-wa-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .preview-num {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+
+  .preview-num strong {
+    font-size: 13.5px;
+    font-weight: 900;
+    color: var(--ink);
+  }
+
+  .preview-num small {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink-soft);
+  }
+
+  .preview-edit {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--purple);
+    background: var(--lila);
+    border-radius: 999px;
+    padding: 8px 13px;
+    min-height: 36px;
+  }
+
+  .preview-edit svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .preview-text {
+    border: 1.5px dashed var(--lila-2);
+    background: #faf7ff;
+    border-radius: 14px;
+    padding: 12px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.5;
+    width: 100%;
+    resize: vertical;
+  }
+
+  .preview-text:not([readonly]) {
+    border-style: solid;
+    border-color: var(--purple);
+    outline: none;
+  }
+
+  .preview-nota {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--purple);
+  }
+</style>

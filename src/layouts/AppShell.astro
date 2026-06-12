@@ -1,0 +1,94 @@
+---
+import '../styles/global.css';
+import { getImage } from 'astro:assets';
+import Header from '../components/Header.astro';
+import BottomNav from '../components/BottomNav.astro';
+import CtaWhatsApp from '../components/CtaWhatsApp.astro';
+import ogSource from '../assets/img/jorge-camioneta.png';
+import { WA_DISPLAY } from '../scripts/whatsapp.js';
+
+// Esqueleto compartido por las 4 pantallas (guía §4):
+// header navy fijo + contenido + dock inferior (CTA amarillo + menú).
+interface Props {
+  title: string;
+  description: string;
+  active: 'inicio' | 'servicios' | 'opiniones' | 'admin';
+  admin?: boolean;
+}
+const { title, description, active, admin = false } = Astro.props;
+
+const og = await getImage({ src: ogSource, width: 1200, height: 630, fit: 'cover', format: 'jpeg' });
+const ogAbsolute = new URL(og.src, Astro.site).href;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Tu Vecino Confiable',
+  description:
+    'Fletes pequeños, traslados, retiro de cachureos y soluciones prácticas para la casa. Jorge Letelier, tu vecino confiable.',
+  telephone: WA_DISPLAY,
+  image: ogAbsolute,
+  url: canonical,
+  areaServed: ['Santiago', 'Viña del Mar', 'Valparaíso', 'Quilpué', 'Villa Alemana'],
+  priceRange: '$$',
+};
+---
+
+<!doctype html>
+<html lang="es-CL">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#06162F" />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogAbsolute} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="es_CL" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,900&display=swap"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <div class="app">
+      <Header admin={admin} />
+      <main id="contenido">
+        <slot />
+      </main>
+      <div class="bottom-dock">
+        <CtaWhatsApp />
+        <BottomNav active={active} />
+      </div>
+    </div>
+  </body>
+</html>
+
+<style>
+  .bottom-dock {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: var(--app-max);
+    z-index: 50;
+    /* degradado para que el contenido no choque seco con el dock */
+    background: linear-gradient(180deg, rgba(6, 22, 47, 0) 0%, var(--navy) 26%);
+    padding-top: 10px;
+  }
+</style>

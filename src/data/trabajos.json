@@ -1,0 +1,29 @@
+[
+  {
+    "id": "cachureos",
+    "titulo": "Retiro de cachureos",
+    "icono": "sillon",
+    "texto": "Retiré muebles, electrodomésticos y cosas en desuso.",
+    "comuna": "Quilpué",
+    "imagen": "cachureos",
+    "antesDespues": true
+  },
+  {
+    "id": "muebles",
+    "titulo": "Repisas a medida",
+    "icono": "herramientas",
+    "texto": "Diseñé, fabriqué e instalé repisas a medida en bodega.",
+    "comuna": "Villa Alemana",
+    "imagen": "repisas",
+    "antesDespues": true
+  },
+  {
+    "id": "fletes",
+    "titulo": "Flete pequeño",
+    "icono": "camion",
+    "texto": "Flete pequeño, rápido y seguro. Ida y vuelta el mismo día.",
+    "comuna": "Viña del Mar",
+    "imagen": "flete",
+    "antesDespues": false
+  }
+]

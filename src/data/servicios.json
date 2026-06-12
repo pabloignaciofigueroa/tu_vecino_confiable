@@ -1,0 +1,83 @@
+[
+  {
+    "id": "aeropuerto",
+    "nombre": "Traslado al aeropuerto",
+    "descripcion": "Te llevo cómodo y a tiempo",
+    "icono": "avion",
+    "precio": 35000,
+    "precioNota": "por ida",
+    "destacado": true
+  },
+  {
+    "id": "vina",
+    "nombre": "Traslado Santiago – Viña del Mar",
+    "descripcion": "Ida y vuelta coordinada contigo",
+    "icono": "ruta",
+    "precio": null,
+    "precioNota": null,
+    "destacado": true
+  },
+  {
+    "id": "fiestas",
+    "nombre": "Traslado fiestas y matrimonios",
+    "descripcion": "Transporte de invitados ida y vuelta",
+    "icono": "copas",
+    "precio": 25000,
+    "precioNota": "por persona",
+    "destacado": true
+  },
+  {
+    "id": "cachureos",
+    "nombre": "Retiro de cachureos",
+    "descripcion": "Lavadoras, refrigeradores, ropa y más",
+    "icono": "sillon",
+    "precio": null,
+    "precioNota": null,
+    "destacado": true
+  },
+  {
+    "id": "fletes",
+    "nombre": "Fletes pequeños",
+    "descripcion": "Mudanzas chicas y encargos",
+    "icono": "camion",
+    "precio": 30000,
+    "precioNota": null,
+    "destacado": true
+  },
+  {
+    "id": "tramites",
+    "nombre": "Traslado a trámites",
+    "descripcion": "Te llevo, te espero y volvemos juntos",
+    "icono": "clipboard",
+    "precio": null,
+    "precioNota": null,
+    "destacado": false
+  },
+  {
+    "id": "muebles",
+    "nombre": "Armado de muebles",
+    "descripcion": "IKEA, Easy y cualquier marca",
+    "icono": "herramientas",
+    "precio": null,
+    "precioNota": null,
+    "destacado": false
+  },
+  {
+    "id": "ventanales",
+    "nombre": "Limpieza de ventanales",
+    "descripcion": "Interior y exterior, brillo garantizado",
+    "icono": "ventana",
+    "precio": null,
+    "precioNota": null,
+    "destacado": false
+  },
+  {
+    "id": "pintura",
+    "nombre": "Trabajos de pintura",
+    "descripcion": "Interiores y exteriores",
+    "icono": "rodillo",
+    "precio": null,
+    "precioNota": null,
+    "destacado": false
+  }
+]

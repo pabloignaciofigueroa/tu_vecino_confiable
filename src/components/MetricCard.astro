@@ -1,0 +1,67 @@
+---
+import ServiceIcon from './ServiceIcon.astro';
+
+// Widget de métrica del admin: pastel fuerte, número grande, ícono y
+// tendencia (guía §11 y §13). "Widget vivo", no caja corporativa.
+interface Props {
+  titulo: string;
+  valor: string;
+  nota: string;
+  tono: 'blush' | 'mint' | 'lila' | 'peach';
+  icono: string;
+}
+const { titulo, valor, nota, tono, icono } = Astro.props;
+
+const tonos = {
+  blush: { bg: 'var(--blush-2)', fuerte: '#e2557b' },
+  mint: { bg: 'var(--mint)', fuerte: '#1f9d63' },
+  lila: { bg: 'var(--lila)', fuerte: 'var(--purple)' },
+  peach: { bg: '#ffe3cf', fuerte: '#e8772e' },
+};
+const t = tonos[tono];
+---
+
+<article class="metric" style={`--m-bg: ${t.bg}; --m-fuerte: ${t.fuerte};`}>
+  <span class="metric-icon">
+    <ServiceIcon icon={icono} color={t.fuerte} softBg="rgba(255,255,255,0.7)" size={34} soft />
+  </span>
+  <h3 class="metric-titulo">{titulo}</h3>
+  <p class="metric-valor">{valor}</p>
+  <p class="metric-nota">{nota}</p>
+</article>
+
+<style>
+  .metric {
+    background: var(--m-bg);
+    border-radius: var(--radius-lg);
+    padding: 13px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .metric-titulo {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--ink);
+    opacity: 0.8;
+  }
+
+  .metric-valor {
+    font-size: 23px;
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+
+  .metric-nota {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--m-fuerte);
+  }
+
+  .metric-icon {
+    margin-bottom: 4px;
+  }
+</style>
