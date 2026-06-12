@@ -1,0 +1,250 @@
+/* ============================================================
+   TU VECINO CONFIABLE — sistema de estilos
+   Paleta y roles según GUIA_MAESTRA_DISENO_VECINO_CONFIABLE.MD
+   ============================================================ */
+
+:root {
+  /* --- Estructurales --- */
+  --navy: #06162f;
+  --navy-2: #071a35;
+  --petrol: #0b2745;
+  --petrol-2: #0e3154;
+  --white-warm: #fff9ef;
+  --white-soft: #f8f3ea;
+  --yellow: #ffc400;
+  --yellow-2: #f6b900;
+
+  /* --- Colores de sección --- */
+  --cream: #fff4dd;
+  --cream-2: #f8ebcf;
+  --blush: #f7b7b7;
+  --blush-2: #ffded8;
+  --lila: #e7d8ff;
+  --lila-2: #d9c8f3;
+  --mint: #cdeedc;
+  --mint-2: #a9dec8;
+  --sky: #c7dff8;
+  --sky-2: #9cc7ee;
+  --peach: #ffc7a8;
+  --peach-2: #f7a678;
+  --purple: #8b5cf6;
+
+  /* --- Colores por categoría de servicio (intenso / pastel) --- */
+  --cat-aeropuerto: #2f80ed;
+  --cat-aeropuerto-soft: #e3eefd;
+  --cat-vina: #14a38b;
+  --cat-vina-soft: #d7f2ec;
+  --cat-fiestas: #ec6a9c;
+  --cat-fiestas-soft: #fde2ec;
+  --cat-cachureos: #f2762e;
+  --cat-cachureos-soft: #ffe5d3;
+  --cat-fletes: #8b5cf6;
+  --cat-fletes-soft: #ebe2fd;
+  --cat-tramites: #e8a50c;
+  --cat-tramites-soft: #fff2cf;
+  --cat-muebles: #2fa86c;
+  --cat-muebles-soft: #d9f2e4;
+  --cat-ventanales: #3aa7e0;
+  --cat-ventanales-soft: #dcf0fb;
+  --cat-pintura: #a07be0;
+  --cat-pintura-soft: #ede6fb;
+
+  /* --- Estados admin --- */
+  --estado-nuevo: #3b82f6;
+  --estado-cotizado: #ffc400;
+  --estado-agendado: #14b8a6;
+  --estado-realizado: #34c98e;
+
+  /* --- Tipografía y formas --- */
+  --font: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  --ink: #122444;
+  --ink-soft: #41527a;
+  --radius: 18px;
+  --radius-lg: 24px;
+  --shadow-soft: 0 6px 18px rgba(6, 22, 47, 0.1);
+  --shadow-card: 0 4px 14px rgba(6, 22, 47, 0.08);
+
+  /* --- Métricas del shell --- */
+  --app-max: 480px;
+  --header-h: 60px;
+  --dock-h: 148px;
+}
+
+/* ---------- Reset mínimo ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--ink);
+  background: var(--navy);
+  /* puntitos sutiles sobre el marco oscuro (guía §14) */
+  background-image: radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  background: none;
+  padding: 0;
+}
+
+/* ---------- Shell ---------- */
+.app {
+  position: relative;
+  max-width: var(--app-max);
+  margin: 0 auto;
+  min-height: 100dvh;
+  background: var(--navy);
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.45);
+}
+
+main {
+  padding-bottom: calc(var(--dock-h) + 16px);
+}
+
+/* ---------- Utilidades ---------- */
+.section {
+  padding: 22px 18px;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--ink);
+  position: relative;
+}
+
+/* underline corto de color bajo títulos (guía §14) */
+.section-title::after {
+  content: '';
+  display: block;
+  width: 34px;
+  height: 4px;
+  border-radius: 4px;
+  margin-top: 4px;
+  background: var(--underline, var(--yellow));
+}
+
+.section-link {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--purple);
+  white-space: nowrap;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* textura de puntos para fondos pastel */
+.texture-dots {
+  background-image: radial-gradient(rgba(6, 22, 47, 0.05) 1.2px, transparent 1.2px);
+  background-size: 18px 18px;
+}
+
+/* ---------- Animaciones ---------- */
+@keyframes pop-in {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wa-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* En pantallas grandes el marco se mantiene acotado (guía §17: máximo ancho) */
+@media (min-width: 820px) {
+  :root {
+    --app-max: 520px;
+  }
+}
