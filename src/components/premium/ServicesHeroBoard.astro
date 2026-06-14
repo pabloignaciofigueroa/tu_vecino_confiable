@@ -1,10 +1,10 @@
 ---
 import JorgeTrustCard from './JorgeTrustCard.astro';
 import BrushHighlight from './BrushHighlight.astro';
-import DoodleLayer from './DoodleLayer.astro';
 
 // Cabecera editorial de Servicios: lettering "Servicios" + subrayado coral +
-// highlight amarillo + card premium de Jorge + doodles.
+// highlight amarillo + card premium de Jorge. Los doodles son acentos sueltos
+// anclados a cada elemento (no un cluster de relleno en la esquina).
 interface Props {
   jorgePhoto: ImageMetadata;
 }
@@ -12,16 +12,29 @@ const { jorgePhoto } = Astro.props;
 ---
 
 <section class="services-hero tv-texture-paper">
-  <DoodleLayer class="services-hero__doodles" color="var(--tv-coral-400)" size={82} />
-
   <div class="services-hero__row">
     <div class="services-hero__heading">
+      <!-- chispa pegada a la esquina superior del título -->
+      <span class="dood dood--spark" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2C12.8 8 16 11.2 22 12 16 12.8 12.8 16 12 22 11.2 16 8 12.8 2 12 8 11.2 11.2 8 12 2Z" fill="currentColor" />
+        </svg>
+      </span>
+
       <h1 class="tv-display services-hero__title">Servicios</h1>
       <span class="tv-underline-coral"></span>
       <BrushHighlight class="services-hero__brush" rotate="-1.5deg">
         Lo que necesitas,<br />resuelto con<br />confianza y<br />buena onda
       </BrushHighlight>
+
+      <!-- corazón cálido junto al brush -->
+      <span class="dood dood--heart" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 20s-7-4.6-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.4-7 10-7 10Z" fill="currentColor" />
+        </svg>
+      </span>
     </div>
+
     <JorgeTrustCard class="services-hero__jorge" photo={jorgePhoto} />
   </div>
 </section>
@@ -30,17 +43,9 @@ const { jorgePhoto } = Astro.props;
   .services-hero {
     position: relative;
     overflow: hidden;
-    padding: 0.7rem var(--page-x) 0.75rem;
+    padding: 0.5rem var(--page-x) 0.7rem;
     background: var(--tv-cream-50);
     border-radius: 0 0 24px 24px;
-  }
-
-  .services-hero__doodles {
-    position: absolute;
-    top: 4px;
-    left: 6px;
-    opacity: 0.7;
-    z-index: 0;
   }
 
   /* dos columnas equilibradas: pila de texto a la izq, card de Jorge a la der */
@@ -69,5 +74,39 @@ const { jorgePhoto } = Astro.props;
   .services-hero__brush {
     margin-top: 0.15rem;
     font-size: 0.78rem;
+  }
+
+  /* ---- doodles como acentos anclados (no relleno) ---- */
+  .dood {
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+    display: block;
+  }
+
+  .dood svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* chispa pegada a la esquina superior-derecha del título */
+  .dood--spark {
+    top: -10px;
+    right: -14px;
+    width: 22px;
+    height: 22px;
+    color: var(--tv-coral-400);
+    transform: rotate(8deg);
+  }
+
+  /* corazón cálido al costado del brush */
+  .dood--heart {
+    bottom: 4px;
+    right: 2px;
+    width: 18px;
+    height: 18px;
+    color: var(--tv-pink-500);
+    transform: rotate(-10deg);
   }
 </style>
