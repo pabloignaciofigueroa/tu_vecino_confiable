@@ -67,7 +67,7 @@ const jsonLd = {
   <body>
     <div class="app">
       <Header admin={admin} />
-      <main id="contenido">
+      <main id="contenido" class:list={{ 'is-admin': admin }}>
         <slot />
       </main>
       <div class="bottom-dock">

@@ -153,6 +153,20 @@ main {
   padding-bottom: calc(var(--cta-h) + var(--nav-h) + env(safe-area-inset-bottom) + 24px);
 }
 
+/* Cada sección de las pantallas públicas es un panel redondeado sobre el marco
+   navy, separado por unos pocos píxeles. Resuelve los cortes duros entre las
+   bandas de color (cada sección queda como una "tarjeta" con su color).
+   El panel admin conserva su layout propio (main.is-admin queda excluido). */
+main:not(.is-admin) > section {
+  margin: 0 6px 8px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+main:not(.is-admin) > section:first-child {
+  margin-top: 8px;
+}
+
 /* ---------- Utilidades ---------- */
 .section {
   padding: var(--section-gap) var(--page-x);
