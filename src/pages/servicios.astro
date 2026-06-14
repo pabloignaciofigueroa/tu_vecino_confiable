@@ -104,11 +104,6 @@ const preseleccionados: string[] = [];
           Mensaje personalizado: ya no se actualiza solo con el formulario.
         </p>
       </div>
-
-      <aside class="preview-postit" aria-hidden="true">
-        <strong>Rápido</strong>
-        <span>y sin compromiso</span>
-      </aside>
     </div>
   </section>
 </AppShell>
@@ -515,37 +510,5 @@ const preseleccionados: string[] = [];
     font-size: 11px;
     font-weight: 800;
     color: var(--tv-purple-600);
-  }
-
-  /* post-it "Rápido y sin compromiso" */
-  .preview-postit {
-    justify-self: end;
-    display: grid;
-    place-items: center;
-    text-align: center;
-    width: 132px;
-    padding: 14px 12px;
-    border-radius: 6px 16px 16px 16px;
-    background: linear-gradient(160deg, #fff2b8, #ffe27a);
-    color: var(--tv-ink);
-    box-shadow: 0 10px 22px rgba(229, 169, 0, 0.28);
-    transform: rotate(3deg);
-    line-height: 1.1;
-  }
-
-  .preview-postit strong {
-    font-family: var(--font-hand);
-    font-size: 1.7rem;
-    font-weight: 700;
-  }
-
-  .preview-postit span {
-    font-size: 0.78rem;
-    font-weight: 800;
-  }
-
-  /* en pantallas muy chicas el post-it se oculta para reducir scroll */
-  @media (max-width: 400px) {
-    .preview-postit { display: none; }
   }
 </style>
