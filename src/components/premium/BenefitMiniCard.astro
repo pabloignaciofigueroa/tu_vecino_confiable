@@ -40,8 +40,8 @@ const {
   }
 
   .benefit--card {
-    min-height: 112px;
-    padding: 0.7rem 0.6rem;
+    min-height: 118px;
+    padding: 0.6rem 0.45rem;
     border-radius: 18px;
     background: rgba(255, 255, 255, 0.94);
     box-shadow: var(--tv-shadow-card);
@@ -58,7 +58,7 @@ const {
     font-size: 0.84rem;
     font-weight: 700;
     line-height: 1.04;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
 
   .benefit__text {
@@ -66,6 +66,10 @@ const {
     font-weight: 600;
     line-height: 1.18;
     color: var(--tv-ink-soft);
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
+
+  /* en el 5-up de Opiniones las columnas son angostas: tipografía más chica */
+  .benefit--card .benefit__title { font-size: 0.76rem; }
+  .benefit--card .benefit__text { font-size: 0.62rem; line-height: 1.16; }
 </style>

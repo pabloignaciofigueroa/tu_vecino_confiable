@@ -24,6 +24,8 @@
   letter-spacing: -0.03em;
   line-height: 0.92;
   color: var(--tv-ink);
+  /* evita scroll horizontal por palabras largas en pantallas angostas */
+  overflow-wrap: break-word;
 }
 
 /* Pill coral "Ver todos los servicios →" */

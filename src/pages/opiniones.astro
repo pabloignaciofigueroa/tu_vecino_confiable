@@ -8,7 +8,7 @@ import TestimonialScorePill from '../components/premium/TestimonialScorePill.ast
 import HandDrawnArrow from '../components/premium/HandDrawnArrow.astro';
 import trabajos from '../data/trabajos.json';
 import testimonios from '../data/testimonios.json';
-import heroJorge from '../assets/img/hero-camioneta.png';
+import heroJorge from '../assets/img/jorge-pickup.png';
 import fotoCachureos from '../assets/img/trabajo-cachureos.png';
 import fotoRepisas from '../assets/img/trabajo-repisas.png';
 import fotoFlete from '../assets/img/trabajo-flete.png';
@@ -22,11 +22,11 @@ const fotos: Record<string, { src: ImageMetadata; alt: string }> = {
 
 // 5 beneficios (mapeados a glifos disponibles + color/soft de marca).
 const confianza = [
-  { titulo: 'Atención directa', texto: 'Hablo contigo desde el inicio', icono: 'chat', color: 'var(--tv-coral-500)', soft: 'var(--tv-pink-50)' },
-  { titulo: 'Camioneta propia', texto: 'Fletes seguros y puntuales', icono: 'camion', color: 'var(--tv-blue-500)', soft: 'var(--tv-blue-50)' },
-  { titulo: 'Servicio garantizado', texto: 'Si algo no queda bien, lo arreglo', icono: 'shield', color: 'var(--tv-green-500)', soft: 'var(--tv-mint-100)' },
-  { titulo: 'Precio justo', texto: 'Cotizaciones claras y sin letras chicas', icono: 'moneda', color: 'var(--tv-purple-500)', soft: 'var(--tv-lilac-100)' },
-  { titulo: 'Respuesta rápida', texto: 'Te respondo por WhatsApp', icono: 'bolt', color: 'var(--tv-orange-500)', soft: '#ffe6d2' },
+  { titulo: 'Atención', texto: 'Desde el inicio', icono: 'chat', color: 'var(--tv-coral-500)', soft: 'var(--tv-pink-50)' },
+  { titulo: 'Camioneta', texto: 'Segura y puntual', icono: 'camion', color: 'var(--tv-blue-500)', soft: 'var(--tv-blue-50)' },
+  { titulo: 'Garantía', texto: 'Lo dejo bien', icono: 'shield', color: 'var(--tv-green-500)', soft: 'var(--tv-mint-100)' },
+  { titulo: 'Precio justo', texto: 'Sin letras chicas', icono: 'moneda', color: 'var(--tv-purple-500)', soft: 'var(--tv-lilac-100)' },
+  { titulo: 'Respuesta', texto: 'Por WhatsApp', icono: 'bolt', color: 'var(--tv-orange-500)', soft: '#ffe6d2' },
 ];
 
 const acentosTestimonio = ['var(--tv-coral-500)', 'var(--tv-green-500)', 'var(--tv-purple-500)'];
@@ -38,7 +38,7 @@ const acentosTestimonio = ['var(--tv-coral-500)', 'var(--tv-green-500)', 'var(--
   active="opiniones"
 >
   <!-- Hero humano/editorial (Biblia visual 03.jpeg) -->
-  <OpinionsHeroPoster photo={heroJorge} alt="Jorge Letelier junto a su camioneta roja cargada" />
+  <OpinionsHeroPoster photo={heroJorge} alt="Jorge Letelier de pie junto a su camioneta roja, listo para atender" />
 
   <!-- 5 mini beneficios -->
   <section class="benefits tv-texture-dots">
@@ -102,14 +102,14 @@ const acentosTestimonio = ['var(--tv-coral-500)', 'var(--tv-green-500)', 'var(--
 <style>
   /* ---------- Beneficios (5-up compacto, como 03.jpeg) ---------- */
   .benefits {
-    padding: 10px 14px 14px;
+    padding: 10px 10px 12px;
     background: var(--tv-cream-50);
   }
 
   .benefits__row {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 6px;
+    gap: 5px;
   }
 
   /* ---------- Trabajos ---------- */

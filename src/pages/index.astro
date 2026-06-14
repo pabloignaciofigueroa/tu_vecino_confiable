@@ -68,13 +68,13 @@ const destacados = servicios.filter((s) => s.destacado);
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
-    padding: 0 14px 10px;
+    padding: 0 var(--page-x) 8px;
     background: var(--tv-cream-50);
   }
 
   .destacados {
     position: relative;
-    padding: 10px 14px 14px;
+    padding: 8px var(--page-x) 12px;
     background:
       radial-gradient(90% 60% at 8% 4%, rgba(255, 255, 255, 0.7), transparent 26%),
       var(--tv-mint-50);

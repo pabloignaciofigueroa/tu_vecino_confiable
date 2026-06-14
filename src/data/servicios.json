@@ -2,7 +2,7 @@
   {
     "id": "aeropuerto",
     "nombre": "Traslado al aeropuerto",
-    "descripcion": "Te llevo cómodo y a tiempo",
+    "descripcion": "Cómodo y a tiempo",
     "icono": "avion",
     "precio": 35000,
     "precioNota": "por ida",
@@ -10,8 +10,8 @@
   },
   {
     "id": "vina",
-    "nombre": "Traslado Santiago – Viña del Mar",
-    "descripcion": "Ida y vuelta coordinada contigo",
+    "nombre": "Santiago – Viña del Mar",
+    "descripcion": "Ida y vuelta contigo",
     "icono": "ruta",
     "precio": null,
     "precioNota": null,
@@ -19,8 +19,8 @@
   },
   {
     "id": "fiestas",
-    "nombre": "Traslado fiestas y matrimonios",
-    "descripcion": "Transporte de invitados ida y vuelta",
+    "nombre": "Fiestas y matrimonios",
+    "descripcion": "Invitados ida y vuelta",
     "icono": "copas",
     "precio": 25000,
     "precioNota": "por persona",
@@ -29,7 +29,7 @@
   {
     "id": "cachureos",
     "nombre": "Retiro de cachureos",
-    "descripcion": "Lavadoras, refrigeradores, ropa y más",
+    "descripcion": "Lavadoras, refri, ropa",
     "icono": "sillon",
     "precio": null,
     "precioNota": null,
@@ -38,7 +38,7 @@
   {
     "id": "fletes",
     "nombre": "Fletes pequeños",
-    "descripcion": "Mudanzas chicas y encargos",
+    "descripcion": "Mudanzas chicas",
     "icono": "camion",
     "precio": 30000,
     "precioNota": null,
@@ -46,8 +46,8 @@
   },
   {
     "id": "tramites",
-    "nombre": "Traslado a trámites",
-    "descripcion": "Te llevo, te espero y volvemos juntos",
+    "nombre": "Trámites",
+    "descripcion": "Te llevo y espero",
     "icono": "clipboard",
     "precio": null,
     "precioNota": null,
@@ -56,7 +56,7 @@
   {
     "id": "muebles",
     "nombre": "Armado de muebles",
-    "descripcion": "IKEA, Easy y cualquier marca",
+    "descripcion": "IKEA y otros",
     "icono": "herramientas",
     "precio": null,
     "precioNota": null,
@@ -65,7 +65,7 @@
   {
     "id": "ventanales",
     "nombre": "Limpieza de ventanales",
-    "descripcion": "Interior y exterior, brillo garantizado",
+    "descripcion": "Interior y exterior",
     "icono": "ventana",
     "precio": null,
     "precioNota": null,
@@ -74,7 +74,7 @@
   {
     "id": "pintura",
     "nombre": "Trabajos de pintura",
-    "descripcion": "Interiores y exteriores",
+    "descripcion": "Interior y exterior",
     "icono": "rodillo",
     "precio": null,
     "precioNota": null,

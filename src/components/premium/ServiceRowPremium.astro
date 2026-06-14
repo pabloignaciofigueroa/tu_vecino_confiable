@@ -18,7 +18,7 @@ const { servicio: s } = Astro.props;
 ---
 
 <a class="srowp" href={`/servicios#${s.id}`} style={`--cat: var(--cat-${s.id}); --cat-soft: var(--cat-${s.id}-soft);`}>
-  <ColorIconBubble icon={s.icono} cat={s.id} size={40} />
+  <ColorIconBubble icon={s.icono} cat={s.id} size={46} />
   <span class="srowp__body">
     <strong class="srowp__name">{s.nombre}</strong>
     <small class="srowp__desc">{s.descripcion}</small>
@@ -49,7 +49,8 @@ const { servicio: s } = Astro.props;
     grid-template-columns: auto 1fr auto auto;
     align-items: center;
     gap: 0.6rem;
-    padding: 0.46rem 0.45rem 0.46rem 0.3rem;
+    min-height: 78px;
+    padding: 0.4rem 0.45rem 0.4rem 0.3rem;
     border-bottom: 1px solid rgba(4, 17, 38, 0.08);
     transition: transform var(--tv-dur-fast) var(--tv-ease-pop);
   }
@@ -71,6 +72,9 @@ const { servicio: s } = Astro.props;
     line-height: 1.02;
     letter-spacing: -0.01em;
     color: var(--tv-ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .srowp__desc {
@@ -78,6 +82,9 @@ const { servicio: s } = Astro.props;
     font-weight: 600;
     line-height: 1.2;
     color: var(--tv-ink-soft);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .srowp__side {

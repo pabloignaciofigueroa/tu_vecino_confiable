@@ -99,7 +99,7 @@ const preseleccionados: string[] = [];
             <span id="btn-editar-label">Editar mensaje</span>
           </button>
         </div>
-        <textarea class="preview-text" id="preview-text" rows="4" readonly aria-label="Mensaje para WhatsApp"></textarea>
+        <textarea class="preview-text" id="preview-text" rows="3" readonly aria-label="Mensaje para WhatsApp"></textarea>
         <p class="preview-nota" id="preview-nota" hidden>
           Mensaje personalizado: ya no se actualiza solo con el formulario.
         </p>
@@ -216,7 +216,7 @@ const preseleccionados: string[] = [];
 <style>
   /* ---------- Grilla ---------- */
   .serv-grid-wrap {
-    padding: 10px 14px;
+    padding: 10px var(--page-x);
     background: var(--tv-cream-50);
   }
 
@@ -224,6 +224,13 @@ const preseleccionados: string[] = [];
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 6px;
+  }
+
+  /* en pantallas muy angostas, 2 columnas para no romper la legibilidad */
+  @media (max-width: 380px) {
+    .serv-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
   /* ---------- Formulario ---------- */
@@ -535,5 +542,10 @@ const preseleccionados: string[] = [];
   .preview-postit span {
     font-size: 0.78rem;
     font-weight: 800;
+  }
+
+  /* en pantallas muy chicas el post-it se oculta para reducir scroll */
+  @media (max-width: 400px) {
+    .preview-postit { display: none; }
   }
 </style>

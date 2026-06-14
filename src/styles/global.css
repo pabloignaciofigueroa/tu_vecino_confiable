@@ -73,8 +73,12 @@
 
   /* --- Métricas del shell --- */
   --app-max: 480px;
-  --header-h: 60px;
-  --dock-h: 162px;
+  --header-h: 58px;
+  --cta-h: 72px;   /* alto visual del botón CTA amarillo */
+  --nav-h: 66px;   /* alto visual del menú inferior */
+  --dock-h: calc(var(--cta-h) + var(--nav-h)); /* dock fijo = CTA + nav */
+  --page-x: 14px;       /* padding horizontal estándar de página */
+  --section-gap: 14px;  /* separación vertical estándar entre secciones */
 }
 
 /* ---------- Reset mínimo ---------- */
@@ -145,12 +149,13 @@ button {
 }
 
 main {
-  padding-bottom: calc(var(--dock-h) + 16px);
+  /* deja espacio para el dock fijo (CTA + nav) sin que tape contenido */
+  padding-bottom: calc(var(--cta-h) + var(--nav-h) + env(safe-area-inset-bottom) + 24px);
 }
 
 /* ---------- Utilidades ---------- */
 .section {
-  padding: 22px 18px;
+  padding: var(--section-gap) var(--page-x);
 }
 
 .section-head {
