@@ -7,10 +7,12 @@ const MENSAJE_BASE = '¡Hola Jorge! 👋 Vi tu página Tu Vecino Confiable y qui
 /**
  * Arma el mensaje de cotización a partir de lo que el cliente eligió.
  * Si no hay nada elegido, cae al mensaje genérico (camino de error cubierto).
- * @param {{ servicios?: string[], comuna?: string, fecha?: string, hora?: string, detalle?: string }} [datos]
+ * `fotos` es la cantidad de imágenes que el cliente piensa adjuntar a mano en
+ * el chat (wa.me no permite adjuntarlas por el enlace), así Jorge queda avisado.
+ * @param {{ servicios?: string[], comuna?: string, fecha?: string, hora?: string, detalle?: string, fotos?: number }} [datos]
  */
-export function buildWhatsAppMessage({ servicios = [], comuna = '', fecha = '', hora = '', detalle = '' } = {}) {
-  const hayDatos = servicios.length || comuna || fecha || hora || detalle;
+export function buildWhatsAppMessage({ servicios = [], comuna = '', fecha = '', hora = '', detalle = '', fotos = 0 } = {}) {
+  const hayDatos = servicios.length || comuna || fecha || hora || detalle || fotos;
   if (!hayDatos) return MENSAJE_BASE;
 
   const lineas = ['¡Hola Jorge! 👋'];
@@ -19,6 +21,7 @@ export function buildWhatsAppMessage({ servicios = [], comuna = '', fecha = '', 
   if (cuando) lineas.push(`Para: ${cuando}.`);
   if (comuna) lineas.push(`En: ${comuna}.`);
   if (detalle) lineas.push(`Detalle: ${detalle}`);
+  if (fotos) lineas.push(`Te adjunto ${fotos} foto${fotos > 1 ? 's' : ''} en el chat.`);
   return lineas.join('\n');
 }
 

@@ -71,7 +71,7 @@ const preseleccionados: string[] = [];
           <div class="foto-thumbs" id="foto-thumbs"></div>
         </div>
       </div>
-      <p class="foto-nota">Las fotos se adjuntan directo en el chat de WhatsApp al enviar el mensaje.</p>
+      <p class="foto-nota">Recuerda adjuntar las fotos en el chat de WhatsApp con el clip 📎: por WhatsApp no se envían solas.</p>
     </form>
   </section>
 
@@ -146,6 +146,7 @@ const preseleccionados: string[] = [];
         fecha: fechaLegible(inputFecha.value),
         hora: inputHora.value,
         detalle: inputDetalle.value.trim(),
+        fotos: thumbs.children.length,
       });
     }
     cta.href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(preview.value)}`;
@@ -199,10 +200,12 @@ const preseleccionados: string[] = [];
       x.addEventListener('click', () => {
         URL.revokeObjectURL(url);
         cont.remove();
+        actualizar();
       });
       cont.append(img, x);
       thumbs.append(cont);
     });
+    actualizar();
   });
 
   actualizar();
