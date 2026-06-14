@@ -1,0 +1,15 @@
+---
+// Burbuja de color por categoría con glifo blanco. Reusa los SVG de ServiceIcon
+// con silueta orgánica (blob) + relieve (bubble) del lenguaje premium.
+import ServiceIcon from '../ServiceIcon.astro';
+interface Props {
+  icon: string;
+  cat?: string;
+  size?: number;
+  color?: string;
+  softBg?: string;
+}
+const { icon, cat = '', size = 56, color, softBg } = Astro.props;
+---
+
+<ServiceIcon icon={icon} cat={cat} size={size} color={color} softBg={softBg} blob bubble />

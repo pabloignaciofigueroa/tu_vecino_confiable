@@ -381,7 +381,7 @@ const estadoClase = (estado: string) => `badge badge--${estado.toLowerCase()}`;
     width: 100%;
     max-width: 320px;
     background: var(--white-warm);
-    border-radius: var(--radius-lg);
+    border-radius: var(--tv-radius-card);
     padding: 28px 22px 24px;
     box-shadow: 0 18px 44px rgba(0, 0, 0, 0.4);
     display: flex;
@@ -418,8 +418,9 @@ const estadoClase = (estado: string) => `badge badge--${estado.toLowerCase()}`;
   }
 
   .lock-titulo {
-    font-size: 20px;
-    font-weight: 900;
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
     color: var(--ink);
   }
 
@@ -485,9 +486,11 @@ const estadoClase = (estado: string) => `badge badge--${estado.toLowerCase()}`;
 
   .ahead-titulo {
     color: #fff;
-    font-size: 26px;
-    font-weight: 900;
-    line-height: 1.1;
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
   }
 
   .ahead-sub {
@@ -538,8 +541,9 @@ const estadoClase = (estado: string) => `badge badge--${estado.toLowerCase()}`;
 
   .panel-titulo {
     color: #fff;
-    font-size: 16px;
-    font-weight: 900;
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
   }
 
   .panel-link,
@@ -717,14 +721,18 @@ const estadoClase = (estado: string) => `badge badge--${estado.toLowerCase()}`;
 
   /* ---------- Nueva pega ---------- */
   .nueva {
-    background: #eaf6ee;
-    border-radius: 26px 26px 0 0;
-    padding: 22px 18px 26px;
+    background:
+      radial-gradient(90% 50% at 90% 4%, rgba(255, 255, 255, 0.55), transparent 30%),
+      var(--tv-mint-50);
+    border-radius: var(--tv-radius-panel) var(--tv-radius-panel) 0 0;
+    padding: 24px 18px 26px;
   }
 
   .nueva-titulo {
-    font-size: 19px;
-    font-weight: 900;
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
     color: var(--ink);
   }
 

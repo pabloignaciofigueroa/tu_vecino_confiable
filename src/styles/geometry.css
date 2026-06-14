@@ -1,0 +1,19 @@
+/* ============================================================
+   Geometrías orgánicas reutilizables.
+   Para chips/burbujas pequeñas (nivel 1). Las formas grandes
+   (islands, stickers, paneles) usan SVG en sus componentes.
+   ============================================================ */
+
+:root {
+  --tv-blob-01: 62% 38% 41% 59% / 48% 56% 44% 52%;
+  --tv-blob-02: 44% 56% 63% 37% / 58% 42% 55% 45%;
+  --tv-blob-03: 72% 28% 48% 52% / 39% 61% 43% 57%;
+  --tv-blob-04: 53% 47% 35% 65% / 42% 57% 43% 58%;
+  --tv-blob-05: 38% 62% 53% 47% / 50% 42% 58% 50%;
+}
+
+.tv-blob-01 { border-radius: var(--tv-blob-01); }
+.tv-blob-02 { border-radius: var(--tv-blob-02); }
+.tv-blob-03 { border-radius: var(--tv-blob-03); }
+.tv-blob-04 { border-radius: var(--tv-blob-04); }
+.tv-blob-05 { border-radius: var(--tv-blob-05); }

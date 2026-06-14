@@ -1,0 +1,76 @@
+---
+import JorgeTrustCard from './JorgeTrustCard.astro';
+import BrushHighlight from './BrushHighlight.astro';
+import HandDrawnArrow from './HandDrawnArrow.astro';
+import DoodleLayer from './DoodleLayer.astro';
+
+// Cabecera editorial de Servicios: lettering "Servicios" + subrayado coral +
+// highlight amarillo + card premium de Jorge + doodles.
+interface Props {
+  jorgePhoto: ImageMetadata;
+}
+const { jorgePhoto } = Astro.props;
+---
+
+<section class="services-hero tv-texture-paper">
+  <DoodleLayer class="services-hero__doodles" color="var(--tv-coral-400)" size={82} />
+
+  <div class="services-hero__row">
+    <div class="services-hero__heading">
+      <h1 class="tv-display services-hero__title">Servicios</h1>
+      <span class="tv-underline-coral"></span>
+    </div>
+    <JorgeTrustCard class="services-hero__jorge" photo={jorgePhoto} />
+  </div>
+
+  <div class="services-hero__sub">
+    <BrushHighlight rotate="-1.5deg">
+      Lo que necesitas, resuelto<br />con confianza y buena onda
+    </BrushHighlight>
+    <HandDrawnArrow class="services-hero__arrow" color="var(--tv-coral-500)" width={40} flip />
+  </div>
+</section>
+
+<style>
+  .services-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 0.8rem 0.9rem 0.7rem;
+    background: var(--tv-cream-50);
+    border-radius: 0 0 24px 24px;
+  }
+
+  .services-hero__doodles {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    opacity: 0.75;
+    z-index: 0;
+  }
+
+  .services-hero__row {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .services-hero__title {
+    font-size: clamp(1.8rem, 9vw, 2.5rem);
+  }
+
+  .services-hero__sub {
+    position: relative;
+    z-index: 1;
+    margin-top: 0.55rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .services-hero__sub :global(.doodle-arrow) {
+    flex: none;
+  }
+</style>

@@ -1,0 +1,125 @@
+---
+// Fila compacta de servicio destacado (Inicio), dentro del panel blanco.
+// Burbuja de color + copy + precio en color de categoría / pill Cotizar + chevron.
+import ColorIconBubble from './ColorIconBubble.astro';
+import { formatCLP } from '../../scripts/format.js';
+
+interface Props {
+  servicio: {
+    id: string;
+    nombre: string;
+    descripcion: string;
+    icono: string;
+    precio: number | null;
+    precioNota: string | null;
+  };
+}
+const { servicio: s } = Astro.props;
+---
+
+<a class="srowp" href={`/servicios#${s.id}`} style={`--cat: var(--cat-${s.id}); --cat-soft: var(--cat-${s.id}-soft);`}>
+  <ColorIconBubble icon={s.icono} cat={s.id} size={40} />
+  <span class="srowp__body">
+    <strong class="srowp__name">{s.nombre}</strong>
+    <small class="srowp__desc">{s.descripcion}</small>
+  </span>
+  <span class="srowp__side">
+    {
+      s.precio ? (
+        <>
+          <small class="srowp__from">Desde</small>
+          <strong class="srowp__price">{formatCLP(s.precio)}</strong>
+          {s.precioNota && <small class="srowp__note">{s.precioNota}</small>}
+        </>
+      ) : (
+        <span class="srowp__cotizar">Cotizar</span>
+      )
+    }
+  </span>
+  <span class="srowp__chev" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m9 5 7 7-7 7" />
+    </svg>
+  </span>
+</a>
+
+<style>
+  .srowp {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.46rem 0.45rem 0.46rem 0.3rem;
+    border-bottom: 1px solid rgba(4, 17, 38, 0.08);
+    transition: transform var(--tv-dur-fast) var(--tv-ease-pop);
+  }
+
+  .srowp:last-child { border-bottom: 0; }
+  .srowp:active { transform: scale(0.99); }
+
+  .srowp__body {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .srowp__name {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    color: var(--tv-ink);
+  }
+
+  .srowp__desc {
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--tv-ink-soft);
+  }
+
+  .srowp__side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.05;
+    white-space: nowrap;
+  }
+
+  .srowp__from,
+  .srowp__note {
+    font-size: 0.66rem;
+    font-weight: 800;
+    color: var(--tv-ink-soft);
+  }
+
+  .srowp__price {
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: var(--cat);
+  }
+
+  .srowp__cotizar {
+    background: var(--cat);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 900;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    box-shadow: 0 6px 14px color-mix(in srgb, var(--cat) 36%, transparent);
+  }
+
+  .srowp__chev {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--cat-soft);
+    color: var(--cat);
+  }
+
+  .srowp__chev svg { width: 13px; height: 13px; }
+</style>

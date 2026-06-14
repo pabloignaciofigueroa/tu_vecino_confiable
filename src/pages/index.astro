@@ -1,8 +1,10 @@
 ---
-import { Image } from 'astro:assets';
 import AppShell from '../layouts/AppShell.astro';
-import SectionTitle from '../components/SectionTitle.astro';
-import ServiceRow from '../components/ServiceRow.astro';
+import HeroPoster from '../components/premium/HeroPoster.astro';
+import FeatureInfoCard from '../components/premium/FeatureInfoCard.astro';
+import ServiceRowPremium from '../components/premium/ServiceRowPremium.astro';
+import HandwrittenText from '../components/premium/HandwrittenText.astro';
+import HandDrawnArrow from '../components/premium/HandDrawnArrow.astro';
 import servicios from '../data/servicios.json';
 import heroFoto from '../assets/img/hero-camioneta.png';
 
@@ -14,328 +16,123 @@ const destacados = servicios.filter((s) => s.destacado);
   description="Jorge Letelier te ayuda con fletes pequeños, traslados al aeropuerto, retiro de cachureos y soluciones prácticas para la casa. Cotiza rápido por WhatsApp."
   active="inicio"
 >
-  <!-- Hero cálido: azul noche que respira hacia crema/blush (guía §8) -->
-  <section class="hero">
-    <div class="hero-grid">
-      <div class="hero-text">
-        <h1 class="hero-titulo">Estoy aquí<br />para ayudarte</h1>
-        <p class="hero-frase">“Si lo necesitas, yo lo resuelvo”</p>
-        <ul class="hero-valores">
-          <li><span class="dot dot-blush" aria-hidden="true"></span>Buena onda</li>
-          <li><span class="dot dot-yellow" aria-hidden="true"></span>Precio justo</li>
-          <li class="valor-check">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="m5 12.5 4.5 4.5L19 7" />
-            </svg>
-            Servicio garantizado
-          </li>
-        </ul>
-      </div>
-      <div class="hero-foto">
-        <Image
-          src={heroFoto}
-          alt="Jorge sobre su camioneta roja cargada con muebles"
-          width={640}
-          densities={[1, 2]}
-          loading="eager"
-          fetchpriority="high"
-        />
-        <span class="hero-badge" aria-label="Servicio garantizado">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9 2.9-6z" />
-          </svg>
-          Servicio<br />garantizado
-        </span>
-      </div>
-    </div>
-  </section>
+  <!-- Hero póster editorial (Biblia visual 01.jpeg) -->
+  <HeroPoster photo={heroFoto} alt="Jorge sobre su camioneta roja cargada con muebles" />
 
-  <!-- Chips de cobertura sobre crema (guía §8.3) -->
-  <section class="cobertura texture-dots">
-    <a class="chip-cobertura" href="/servicios">
-      <span class="chip-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 21s-6.5-6.6-6.5-11A6.5 6.5 0 0 1 12 3.5 6.5 6.5 0 0 1 18.5 10c0 4.4-6.5 11-6.5 11z" />
-          <circle cx="12" cy="10" r="2.4" />
-        </svg>
-      </span>
-      <span class="chip-texto"><strong>Atención en Santiago</strong> y alrededores</span>
-    </a>
-    <a class="chip-cobertura" href="/servicios#vina">
-      <span class="chip-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 7h11v9H3z" />
-          <path d="M14 10h4l3 3v3h-7" />
-          <circle cx="7" cy="18" r="1.7" />
-          <circle cx="17" cy="18" r="1.7" />
-        </svg>
-      </span>
-      <span class="chip-texto"><strong>Viajes especiales a Viña del Mar / Valparaíso</strong> previa cotización</span>
-    </a>
-  </section>
-
-  <!-- Servicios destacados sobre lila suave (guía §8.4) -->
-  <section class="destacados">
-    <SectionTitle
-      title="Servicios destacados"
-      underline="var(--purple)"
-      linkHref="/servicios"
-      linkLabel="Ver todos los servicios →"
+  <!-- Cards de cobertura / viajes -->
+  <section class="cobertura">
+    <FeatureInfoCard
+      icon="pin"
+      title="Atención en Santiago"
+      text="y alrededores"
+      href="/servicios"
     />
-    <div class="destacados-lista">
-      {destacados.map((s) => <ServiceRow servicio={s} />)}
-    </div>
+    <FeatureInfoCard
+      icon="beach"
+      title="Viajes especiales a Viña / Valparaíso"
+      text="previa cotización"
+      href="/servicios#vina"
+      iconBg="var(--tv-blue-50)"
+      iconFg="var(--tv-navy-900)"
+      arrowBg="#fde9c2"
+      arrowFg="var(--tv-yellow-600)"
+    />
   </section>
 
-  <!-- Trust strip sobre menta (guía §8.5) -->
-  <section class="trust">
-    <div class="trust-item">
-      <span class="trust-icon" style="--t: #e2557b;" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 21s-7.5-4.9-9.5-9.2C1 8.4 3 5 6.4 5c2 0 3.4 1 4.3 2.4l1.3 1.9 1.3-1.9C14.2 6 15.6 5 17.6 5 21 5 23 8.4 21.5 11.8 19.5 16.1 12 21 12 21z" />
-        </svg>
-      </span>
-      <span>Trato cercano</span>
+  <!-- Servicios destacados como lista editorial sobre menta -->
+  <section class="destacados tv-texture-dots">
+    <svg class="destacados__sprouts" viewBox="0 0 320 60" fill="none" aria-hidden="true">
+      <g stroke="var(--tv-green-500)" stroke-width="2" stroke-linecap="round">
+        <path d="M22 50 V36" /><path d="M22 40 C16 38 13 34 14 30 C20 30 22 35 22 40Z" fill="var(--tv-green-500)" opacity="0.5" /><path d="M22 37 C28 35 31 31 30 27 C24 27 22 32 22 37Z" fill="var(--tv-green-500)" opacity="0.5" />
+        <path d="M300 16 V4" /><path d="M300 9 C295 7 292 4 293 1 C298 1 300 5 300 9Z" fill="var(--tv-green-500)" opacity="0.45" />
+        <path d="M170 54 q4 -6 8 0" opacity="0.4" />
+      </g>
+    </svg>
+    <div class="destacados__intro">
+      <div class="destacados__heading">
+        <HandwrittenText class="destacados__eyebrow" size="1.5rem" rotate="-3deg">Lo más pedido</HandwrittenText>
+        <h2 class="tv-display destacados__title">Servicios destacados</h2>
+      </div>
+      <HandDrawnArrow class="destacados__arrow" color="var(--tv-coral-500)" width={36} />
+      <a class="tv-pill-coral destacados__all" href="/servicios">Ver todos los servicios →</a>
     </div>
-    <div class="trust-item">
-      <span class="trust-icon" style="--t: #e8a50c;" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="9" />
-          <path d="M12 7v5l3.5 2" />
-        </svg>
-      </span>
-      <span>Puntualidad</span>
-    </div>
-    <div class="trust-item">
-      <span class="trust-icon" style="--t: #1f9d63;" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2.5 4.5 5.5v6c0 4.6 3.2 8 7.5 9.5 4.3-1.5 7.5-4.9 7.5-9.5v-6L12 2.5z" />
-          <path d="m8.8 12 2.2 2.2 4.2-4.4" />
-        </svg>
-      </span>
-      <span>Todo asegurado</span>
+
+    <div class="destacados__panel">
+      {destacados.map((s) => <ServiceRowPremium servicio={s} />)}
     </div>
   </section>
 </AppShell>
 
 <style>
-  /* ---------- Hero ---------- */
-  .hero {
-    position: relative;
-    padding: 26px 18px 30px;
-    background:
-      radial-gradient(120% 90% at 88% 100%, rgba(247, 166, 120, 0.4) 0%, rgba(247, 183, 183, 0.16) 38%, transparent 65%),
-      linear-gradient(170deg, var(--navy) 0%, var(--navy-2) 55%, #14213f 100%);
-    overflow: hidden;
-  }
-
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 12px;
-    align-items: center;
-  }
-
-  .hero-titulo {
-    color: #fff;
-    font-size: 26px;
-    line-height: 1.12;
-    font-weight: 900;
-    letter-spacing: -0.01em;
-  }
-
-  .hero-frase {
-    margin-top: 10px;
-    color: var(--yellow);
-    font-style: italic;
-    font-weight: 900;
-    font-size: 15.5px;
-    line-height: 1.3;
-  }
-
-  .hero-valores {
-    list-style: none;
-    margin: 14px 0 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px 14px;
-    color: var(--white-warm);
-    font-size: 12.5px;
-    font-weight: 700;
-  }
-
-  .hero-valores li {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-  }
-
-  .dot-blush {
-    background: var(--blush);
-  }
-
-  .dot-yellow {
-    background: var(--yellow);
-  }
-
-  .valor-check {
-    color: var(--mint-2);
-  }
-
-  .valor-check svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  .hero-foto {
-    position: relative;
-  }
-
-  .hero-foto :global(img) {
-    width: 100%;
-    height: 168px;
-    object-fit: cover;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-  }
-
-  /* badge sticker circular (guía §7 y §14) */
-  .hero-badge {
-    position: absolute;
-    right: -6px;
-    bottom: -12px;
-    width: 76px;
-    height: 76px;
-    border-radius: 50%;
-    background: var(--yellow);
-    color: var(--navy);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 8.5px;
-    font-weight: 900;
-    letter-spacing: 0.05em;
-    line-height: 1.25;
-    transform: rotate(-8deg);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
-    border: 3px solid var(--navy-2);
-  }
-
-  .hero-badge svg {
-    width: 15px;
-    height: 15px;
-    margin-bottom: 1px;
-  }
-
-  /* ---------- Cobertura ---------- */
   .cobertura {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    padding: 18px;
-    background: var(--cream);
-    border-radius: 26px 26px 0 0;
-    margin-top: -14px;
-    position: relative;
-  }
-
-  .chip-cobertura {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: #fff;
-    border-radius: 16px;
-    padding: 11px 12px;
-    box-shadow: var(--shadow-card);
-    border: 1px solid rgba(242, 118, 46, 0.14);
-    min-height: 56px;
-  }
-
-  .chip-icon {
-    width: 34px;
-    height: 34px;
-    min-width: 34px;
-    border-radius: 50%;
-    background: var(--blush-2);
-    color: #e2557b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .chip-icon svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .chip-texto {
-    font-size: 11.5px;
-    line-height: 1.3;
-    font-weight: 600;
-    color: var(--ink-soft);
-  }
-
-  .chip-texto strong {
-    color: var(--ink);
-    font-weight: 800;
-  }
-
-  /* ---------- Servicios destacados ---------- */
-  .destacados {
-    background: #ede7fa;
-    padding: 22px 18px 24px;
-  }
-
-  .destacados-lista {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  /* ---------- Trust strip ---------- */
-  .trust {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
-    background: var(--mint);
-    padding: 18px 16px 22px;
+    padding: 0 14px 10px;
+    background: var(--tv-cream-50);
   }
 
-  .trust-item {
-    display: flex;
-    flex-direction: column;
+  .destacados {
+    position: relative;
+    padding: 10px 14px 14px;
+    background:
+      radial-gradient(90% 60% at 8% 4%, rgba(255, 255, 255, 0.7), transparent 26%),
+      var(--tv-mint-50);
+  }
+
+  .destacados__sprouts {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    width: 100%;
+    height: 56px;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  .destacados__intro {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
     align-items: center;
-    gap: 6px;
-    text-align: center;
-    font-size: 12px;
-    font-weight: 800;
-    color: var(--ink);
+    gap: 4px 10px;
+    margin-bottom: 8px;
   }
 
-  .trust-icon {
+  .destacados__heading { grid-column: 1; grid-row: 1; }
+
+  .destacados__eyebrow {
+    margin-bottom: 1px;
+    color: var(--tv-ink);
+  }
+
+  .destacados__title {
+    font-size: clamp(1.6rem, 7vw, 2.3rem);
+    line-height: 0.95;
+  }
+
+  /* flecha doodle pequeña, encima de la pill */
+  .destacados__arrow {
+    position: absolute;
+    top: -6px;
+    right: 8px;
     width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: #fff;
-    color: var(--t);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: var(--shadow-card);
   }
 
-  .trust-icon svg {
-    width: 19px;
-    height: 19px;
+  .destacados__all {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    align-self: center;
+    padding: 0.55rem 0.85rem;
+    font-size: 0.82rem;
+  }
+
+  .destacados__panel {
+    border-radius: var(--tv-radius-panel);
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: var(--tv-shadow-soft);
+    padding: 2px 12px;
   }
 </style>

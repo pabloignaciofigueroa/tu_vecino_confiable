@@ -1,0 +1,44 @@
+/* ============================================================
+   Sistema de movimiento premium. Sutil, nunca caricaturesco.
+   Todo se desactiva con prefers-reduced-motion.
+   ============================================================ */
+
+@keyframes tv-sticker-float {
+  0%, 100% { transform: rotate(-5deg) translateY(0); }
+  50% { transform: rotate(-3deg) translateY(-5px); }
+}
+
+@keyframes tv-organic-float {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-6px) rotate(1deg); }
+}
+
+@keyframes tv-brush-reveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes tv-soft-pulse {
+  0%, 100% { opacity: 0.82; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.025); }
+}
+
+@keyframes tv-arrow-nudge {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(3px); }
+}
+
+.tv-motion-sticker-float { animation: tv-sticker-float 5.6s ease-in-out infinite; }
+.tv-motion-organic-float { animation: tv-organic-float 6s var(--tv-ease-premium) infinite; }
+.tv-motion-soft-pulse { animation: tv-soft-pulse 4.5s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

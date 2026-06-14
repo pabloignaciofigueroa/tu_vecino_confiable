@@ -1,7 +1,14 @@
 /* ============================================================
    TU VECINO CONFIABLE — sistema de estilos
    Paleta y roles según GUIA_MAESTRA_DISENO_VECINO_CONFIABLE.MD
+   + Design Translation Layer premium (tokens/geometry/textures/motion).
    ============================================================ */
+
+@import './tokens.css';
+@import './geometry.css';
+@import './textures.css';
+@import './motion.css';
+@import './premium.css';
 
 :root {
   /* --- Estructurales --- */
@@ -67,7 +74,7 @@
   /* --- Métricas del shell --- */
   --app-max: 480px;
   --header-h: 60px;
-  --dock-h: 148px;
+  --dock-h: 162px;
 }
 
 /* ---------- Reset mínimo ---------- */

@@ -2,6 +2,8 @@
 // Ícono de servicio dentro de círculo de color por categoría (guía §6).
 // soft=true → círculo pastel + glifo intenso; soft=false → círculo intenso + glifo blanco.
 // `color`/`softBg` permiten usarlo fuera de las categorías (ej: métricas admin).
+// blob=true → silueta orgánica (no círculo perfecto) para el lenguaje premium.
+// bubble=true → relieve premium (inset + drop shadow), estilo ColorIconBubble.
 interface Props {
   icon: string;
   cat?: string;
@@ -9,14 +11,16 @@ interface Props {
   soft?: boolean;
   color?: string;
   softBg?: string;
+  blob?: boolean;
+  bubble?: boolean;
 }
-const { icon, cat = '', size = 44, soft = false, color, softBg } = Astro.props;
+const { icon, cat = '', size = 44, soft = false, color, softBg, blob = false, bubble = false } = Astro.props;
 const fuerte = color ?? `var(--cat-${cat})`;
 const pastel = softBg ?? `var(--cat-${cat}-soft)`;
 ---
 
 <span
-  class:list={['sicon', { 'sicon--soft': soft }]}
+  class:list={['sicon', { 'sicon--soft': soft, 'sicon--blob': blob, 'sicon--bubble': bubble }]}
   style={`--cat: ${fuerte}; --cat-soft: ${pastel}; --size: ${size}px;`}
   aria-hidden="true"
 >
@@ -100,6 +104,22 @@ const pastel = softBg ?? `var(--cat-${cat}-soft)`;
       <path d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9 2.9-6z" />
     </svg>
   )}
+  {icon === 'chat' && (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.3-.7L3 21l1.8-5.7a8.4 8.4 0 1 1 16.2-3.8z" />
+    </svg>
+  )}
+  {icon === 'shield' && (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2.5 4.5 5.5v6c0 4.6 3.2 8 7.5 9.5 4.3-1.5 7.5-4.9 7.5-9.5v-6L12 2.5z" />
+      <path d="m8.8 12 2.2 2.2 4.2-4.4" />
+    </svg>
+  )}
+  {icon === 'bolt' && (
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" />
+    </svg>
+  )}
 </span>
 
 <style>
@@ -118,6 +138,21 @@ const pastel = softBg ?? `var(--cat-${cat}-soft)`;
   .sicon--soft {
     background: var(--cat-soft);
     color: var(--cat);
+  }
+
+  /* silueta orgánica premium (no círculo perfecto) */
+  .sicon--blob {
+    border-radius: 42% 58% 51% 49% / 48% 44% 56% 52%;
+  }
+
+  /* relieve premium: brillo interno + sombra de color */
+  .sicon--bubble {
+    background:
+      radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.32), transparent 46%),
+      var(--cat);
+    box-shadow:
+      inset 0 -9px 16px rgba(0, 0, 0, 0.14),
+      0 10px 20px color-mix(in srgb, var(--cat) 34%, transparent);
   }
 
   .sicon :global(svg) {

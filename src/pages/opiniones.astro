@@ -1,9 +1,11 @@
 ---
-import { Image } from 'astro:assets';
 import AppShell from '../layouts/AppShell.astro';
-import SectionTitle from '../components/SectionTitle.astro';
-import TrabajoCard from '../components/TrabajoCard.astro';
-import TestimonioCard from '../components/TestimonioCard.astro';
+import OpinionsHeroPoster from '../components/premium/OpinionsHeroPoster.astro';
+import BenefitMiniCard from '../components/premium/BenefitMiniCard.astro';
+import WorkCaseCard from '../components/premium/WorkCaseCard.astro';
+import TestimonialCardPremium from '../components/premium/TestimonialCardPremium.astro';
+import TestimonialScorePill from '../components/premium/TestimonialScorePill.astro';
+import HandDrawnArrow from '../components/premium/HandDrawnArrow.astro';
 import trabajos from '../data/trabajos.json';
 import testimonios from '../data/testimonios.json';
 import heroJorge from '../assets/img/hero-camioneta.png';
@@ -11,22 +13,23 @@ import fotoCachureos from '../assets/img/trabajo-cachureos.png';
 import fotoRepisas from '../assets/img/trabajo-repisas.png';
 import fotoFlete from '../assets/img/trabajo-flete.png';
 
-// La página une datos + imágenes; las cards solo reciben props (skill astro).
+// Datos + imágenes; las cards reciben props.
 const fotos: Record<string, { src: ImageMetadata; alt: string }> = {
   cachureos: { src: fotoCachureos, alt: 'Antes y después de un retiro de cachureos en un patio' },
   repisas: { src: fotoRepisas, alt: 'Antes y después de repisas a medida instaladas en bodega' },
   flete: { src: fotoFlete, alt: 'Camioneta roja cargada con cajas para un flete pequeño' },
 };
 
+// 5 beneficios (mapeados a glifos disponibles + color/soft de marca).
 const confianza = [
-  { titulo: 'Atención directa', texto: 'Hablo contigo desde el inicio', icono: 'directa', color: '#e2557b', soft: 'var(--blush-2)' },
-  { titulo: 'Camioneta propia', texto: 'Fletes seguros y puntuales', icono: 'camion', color: '#2f80ed', soft: 'var(--cat-aeropuerto-soft)' },
-  { titulo: 'Servicio garantizado', texto: 'Si algo no queda bien, lo arreglo', icono: 'garantia', color: '#1f9d63', soft: 'var(--cat-muebles-soft)' },
-  { titulo: 'Precio justo', texto: 'Cotización clara y sin sorpresas', icono: 'precio', color: 'var(--purple)', soft: 'var(--lila)' },
-  { titulo: 'Respuesta rápida', texto: 'Te respondo cuando lo necesitas', icono: 'rapida', color: '#e8772e', soft: '#ffe3cf' },
+  { titulo: 'Atención directa', texto: 'Hablo contigo desde el inicio', icono: 'chat', color: 'var(--tv-coral-500)', soft: 'var(--tv-pink-50)' },
+  { titulo: 'Camioneta propia', texto: 'Fletes seguros y puntuales', icono: 'camion', color: 'var(--tv-blue-500)', soft: 'var(--tv-blue-50)' },
+  { titulo: 'Servicio garantizado', texto: 'Si algo no queda bien, lo arreglo', icono: 'shield', color: 'var(--tv-green-500)', soft: 'var(--tv-mint-100)' },
+  { titulo: 'Precio justo', texto: 'Cotizaciones claras y sin letras chicas', icono: 'moneda', color: 'var(--tv-purple-500)', soft: 'var(--tv-lilac-100)' },
+  { titulo: 'Respuesta rápida', texto: 'Te respondo por WhatsApp', icono: 'bolt', color: 'var(--tv-orange-500)', soft: '#ffe6d2' },
 ];
 
-const acentosTestimonio = ['#e2557b', '#1f9d63', 'var(--purple)'];
+const acentosTestimonio = ['var(--tv-coral-500)', 'var(--tv-green-500)', 'var(--tv-purple-500)'];
 ---
 
 <AppShell
@@ -34,103 +37,32 @@ const acentosTestimonio = ['#e2557b', '#1f9d63', 'var(--purple)'];
   description="Conoce a Jorge Letelier y los trabajos realizados: retiros de cachureos, repisas a medida y fletes. Opiniones reales de vecinos de la V Región."
   active="opiniones"
 >
-  <!-- Hero de Jorge sobre azul noche (guía §10.1) -->
-  <section class="ohero">
-    <div class="ohero-grid">
-      <div class="ohero-text">
-        <h1 class="ohero-titulo">Hola, soy<br /><span class="ohero-nombre">Jorge Letelier</span></h1>
-        <p class="ohero-marca">Tu vecino confiable</p>
-        <p class="ohero-bio">
-          Me dedico a ayudar a mis vecinos con fletes, traslados, retiros y soluciones prácticas para la casa.
-          Trabajo con responsabilidad, buena onda y compromiso.
-        </p>
-      </div>
-      <div class="ohero-foto">
-        <Image
-          src={heroJorge}
-          alt="Jorge Letelier sentado sobre su camioneta roja cargada"
-          width={640}
-          densities={[1, 2]}
-          loading="eager"
-          fetchpriority="high"
-        />
-        <span class="ohero-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="m5 12.5 4.5 4.5L19 7" />
-          </svg>
-          Servicio garantizado
-        </span>
-      </div>
-    </div>
-    <div class="ohero-rating">
-      <span class="rating-star" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <path d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9 2.9-6z" />
-        </svg>
-      </span>
-      <span class="rating-meta">
-        <strong>5.0 <span class="rating-stars" aria-hidden="true">★★★★★</span></strong>
-        <small>Basado en la confianza de mis clientes</small>
-      </span>
-    </div>
-  </section>
+  <!-- Hero humano/editorial (Biblia visual 03.jpeg) -->
+  <OpinionsHeroPoster photo={heroJorge} alt="Jorge Letelier junto a su camioneta roja cargada" />
 
-  <!-- Cards de confianza, claras para cortar el hero (guía §10.2) -->
-  <section class="confianza texture-dots">
-    <div class="confianza-scroll" role="list">
+  <!-- 5 mini beneficios -->
+  <section class="benefits tv-texture-dots">
+    <div class="benefits__row" role="list">
       {
         confianza.map((c) => (
-          <article class="ccard" role="listitem" style={`--c: ${c.color}; --c-soft: ${c.soft};`}>
-            <span class="ccard-icon" aria-hidden="true">
-              {c.icono === 'directa' && (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.3-.7L3 21l1.8-5.7a8.4 8.4 0 1 1 16.2-3.8z" />
-                </svg>
-              )}
-              {c.icono === 'camion' && (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M3 7h11v9H3z" />
-                  <path d="M14 10h4l3 3v3h-7" />
-                  <circle cx="7" cy="18" r="1.7" />
-                  <circle cx="17" cy="18" r="1.7" />
-                </svg>
-              )}
-              {c.icono === 'garantia' && (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 2.5 4.5 5.5v6c0 4.6 3.2 8 7.5 9.5 4.3-1.5 7.5-4.9 7.5-9.5v-6L12 2.5z" />
-                  <path d="m8.8 12 2.2 2.2 4.2-4.4" />
-                </svg>
-              )}
-              {c.icono === 'precio' && (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="9" />
-                  <path d="M14.8 8.8A3.2 3.2 0 0 0 12 7.5c-1.8 0-3.2 1-3.2 2.3s1.1 1.9 3.2 2.2c2.3.3 3.4 1 3.4 2.4S13.9 16.7 12 16.7a3.4 3.4 0 0 1-3-1.4" />
-                  <path d="M12 5.5v2" />
-                  <path d="M12 16.7v1.8" />
-                </svg>
-              )}
-              {c.icono === 'rapida' && (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="9" />
-                  <path d="M12 7v5l3.5 2" />
-                </svg>
-              )}
-            </span>
-            <h3 class="ccard-titulo">{c.titulo}</h3>
-            <p class="ccard-texto">{c.texto}</p>
-          </article>
+          <div role="listitem" class="benefits__item">
+            <BenefitMiniCard icon={c.icono} title={c.titulo} text={c.texto} color={c.color} soft={c.soft} iconSize={34} card />
+          </div>
         ))
       }
     </div>
   </section>
 
-  <!-- Trabajos realizados sobre durazno (guía §10.3) -->
-  <section class="trabajos">
-    <SectionTitle title="Opiniones y trabajos realizados" underline="var(--peach-2)" linkHref="/servicios" linkLabel="Ver más →" />
-    <div class="trabajos-lista">
+  <!-- Trabajos realizados premium -->
+  <section class="works">
+    <div class="works__head">
+      <h2 class="tv-display works__title">Opiniones y trabajos realizados</h2>
+      <HandDrawnArrow class="works__arrow" color="var(--tv-orange-500)" width={38} />
+    </div>
+    <div class="works__list">
       {
         trabajos.map((t) => (
-          <TrabajoCard
+          <WorkCaseCard
             titulo={t.titulo}
             texto={t.texto}
             comuna={t.comuna}
@@ -138,19 +70,23 @@ const acentosTestimonio = ['#e2557b', '#1f9d63', 'var(--purple)'];
             icono={t.icono}
             foto={fotos[t.imagen].src}
             fotoAlt={fotos[t.imagen].alt}
+            antesDespues={t.antesDespues}
           />
         ))
       }
     </div>
   </section>
 
-  <!-- Testimonios sobre lila (guía §10.4) -->
-  <section class="testimonios">
-    <SectionTitle title="Lo que dicen mis vecinos" underline="var(--purple)" />
-    <div class="testimonios-lista">
+  <!-- Testimonios premium -->
+  <section class="testimonials">
+    <div class="testimonials__head">
+      <h2 class="tv-display testimonials__title">Lo que dicen mis vecinos</h2>
+      <TestimonialScorePill />
+    </div>
+    <div class="testimonials__list">
       {
         testimonios.map((t, i) => (
-          <TestimonioCard
+          <TestimonialCardPremium
             texto={t.texto}
             nombre={t.nombre}
             comuna={t.comuna}
@@ -164,216 +100,74 @@ const acentosTestimonio = ['#e2557b', '#1f9d63', 'var(--purple)'];
 </AppShell>
 
 <style>
-  /* ---------- Hero Jorge ---------- */
-  .ohero {
-    background:
-      radial-gradient(110% 80% at 90% 0%, rgba(247, 183, 183, 0.18) 0%, transparent 55%),
-      linear-gradient(175deg, var(--navy) 0%, var(--petrol) 100%);
-    padding: 24px 18px 22px;
+  /* ---------- Beneficios (5-up compacto, como 03.jpeg) ---------- */
+  .benefits {
+    padding: 10px 14px 14px;
+    background: var(--tv-cream-50);
   }
 
-  .ohero-grid {
+  .benefits__row {
     display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: 14px;
-    align-items: center;
-  }
-
-  .ohero-titulo {
-    color: #fff;
-    font-size: 25px;
-    font-weight: 900;
-    line-height: 1.15;
-  }
-
-  .ohero-nombre {
-    color: var(--blush);
-  }
-
-  .ohero-marca {
-    margin-top: 4px;
-    color: var(--yellow);
-    text-transform: uppercase;
-    font-size: 11px;
-    font-weight: 900;
-    letter-spacing: 0.14em;
-  }
-
-  .ohero-bio {
-    margin-top: 10px;
-    color: rgba(255, 249, 239, 0.85);
-    font-size: 12.5px;
-    font-weight: 600;
-    line-height: 1.5;
-  }
-
-  .ohero-foto {
-    position: relative;
-  }
-
-  .ohero-foto :global(img) {
-    width: 100%;
-    height: 190px;
-    object-fit: cover;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-  }
-
-  .ohero-badge {
-    position: absolute;
-    top: -9px;
-    right: -4px;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    background: var(--yellow);
-    color: var(--navy);
-    font-size: 10px;
-    font-weight: 900;
-    border-radius: 999px;
-    padding: 6px 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  }
-
-  .ohero-badge svg {
-    width: 12px;
-    height: 12px;
-  }
-
-  .ohero-rating {
-    margin-top: 16px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: 16px;
-    padding: 9px 14px;
-  }
-
-  .rating-star {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: var(--yellow);
-    color: var(--navy);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .rating-star svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .rating-meta {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.2;
-  }
-
-  .rating-meta strong {
-    color: #fff;
-    font-size: 15px;
-    font-weight: 900;
-  }
-
-  .rating-stars {
-    color: var(--yellow);
-    font-size: 13px;
-    letter-spacing: 1.5px;
-  }
-
-  .rating-meta small {
-    color: rgba(255, 249, 239, 0.75);
-    font-size: 11px;
-    font-weight: 600;
-  }
-
-  /* ---------- Cards de confianza ---------- */
-  .confianza {
-    background: var(--white-warm);
-    padding: 18px 0 18px 18px;
-    border-radius: 26px 26px 0 0;
-    margin-top: -12px;
-    position: relative;
-  }
-
-  .confianza-scroll {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    padding: 2px 18px 8px 2px;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .ccard {
-    scroll-snap-align: start;
-    min-width: 122px;
-    max-width: 132px;
-    background: #fff;
-    border-radius: var(--radius);
-    border: 1px solid rgba(6, 22, 47, 0.06);
-    box-shadow: var(--shadow-card);
-    padding: 12px 11px;
-    display: flex;
-    flex-direction: column;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 6px;
   }
 
-  .ccard-icon {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: var(--c-soft);
-    color: var(--c);
+  /* ---------- Trabajos ---------- */
+  .works {
+    position: relative;
+    padding: 13px 14px 18px;
+    background:
+      radial-gradient(90% 50% at 92% 4%, rgba(255, 255, 255, 0.6), transparent 30%),
+      #ffe9d8;
+  }
+
+  .works__head {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 8px;
+    margin-bottom: 9px;
   }
 
-  .ccard-icon svg {
-    width: 18px;
-    height: 18px;
+  .works__title {
+    font-size: clamp(1.45rem, 6vw, 2.1rem);
+    max-width: 16ch;
   }
 
-  .ccard-titulo {
-    font-size: 12.5px;
-    font-weight: 900;
-    color: var(--ink);
-    line-height: 1.2;
-  }
+  .works__arrow { flex: none; }
 
-  .ccard-texto {
-    font-size: 10.5px;
-    font-weight: 600;
-    color: var(--ink-soft);
-    line-height: 1.35;
-  }
-
-  /* ---------- Trabajos ---------- */
-  .trabajos {
-    background: #ffe9d8;
-    padding: 22px 18px 24px;
-  }
-
-  .trabajos-lista {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+  .works__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 7px;
+    align-items: start;
   }
 
   /* ---------- Testimonios ---------- */
-  .testimonios {
-    background: var(--lila);
-    padding: 22px 18px 26px;
+  .testimonials {
+    padding: 13px 14px 18px;
+    background:
+      radial-gradient(90% 50% at 8% 4%, rgba(255, 255, 255, 0.55), transparent 28%),
+      var(--tv-lilac-50);
   }
 
-  .testimonios-lista {
+  .testimonials__head {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 9px;
+  }
+
+  .testimonials__title {
+    font-size: clamp(1.4rem, 6vw, 2rem);
+    max-width: 9ch;
+  }
+
+  .testimonials__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 7px;
+    align-items: start;
   }
 </style>

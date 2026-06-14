@@ -1,0 +1,41 @@
+---
+// Flecha dibujada a mano (curva + punta). Decorativa.
+interface Props {
+  class?: string;
+  color?: string;
+  flip?: boolean;
+  width?: number;
+}
+const { class: className = '', color = 'var(--tv-ink)', flip = false, width = 56 } = Astro.props;
+// el ancho va inline para ganarle a cualquier clase scoped del padre (sin colisión).
+const style = `--arrow-color:${color}; width:${width}px${flip ? '; transform: scaleX(-1)' : ''}`;
+---
+
+<svg
+  class={`doodle-arrow ${className}`}
+  style={style}
+  viewBox="0 0 80 72"
+  fill="none"
+  aria-hidden="true"
+>
+  <path
+    d="M6 12 C20 6 40 8 54 22 C62 30 64 42 60 54"
+    stroke="var(--arrow-color)"
+    stroke-width="4"
+    stroke-linecap="round"
+  ></path>
+  <path
+    d="M48 50 L60 56 L66 44"
+    stroke="var(--arrow-color)"
+    stroke-width="4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  ></path>
+</svg>
+
+<style>
+  .doodle-arrow {
+    height: auto;
+    display: block;
+  }
+</style>

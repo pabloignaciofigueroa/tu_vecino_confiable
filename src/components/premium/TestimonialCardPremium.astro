@@ -1,0 +1,96 @@
+---
+// Testimonio premium: estrellas, comilla decorativa, cita, avatar con iniciales,
+// nombre y comuna. Acento de color variable.
+interface Props {
+  texto: string;
+  nombre: string;
+  comuna: string;
+  estrellas: number;
+  acento?: string;
+}
+const { texto, nombre, comuna, estrellas, acento = 'var(--tv-purple-500)' } = Astro.props;
+const iniciales = nombre
+  .split(' ')
+  .map((p) => p[0])
+  .join('')
+  .replace('.', '')
+  .slice(0, 2)
+  .toUpperCase();
+---
+
+<figure class="testi-p" style={`--acento:${acento}`}>
+  <span class="testi-p__mark" aria-hidden="true">“</span>
+  <div class="testi-p__stars" role="img" aria-label={`${estrellas} de 5 estrellas`}>
+    {Array.from({ length: estrellas }).map(() => <span aria-hidden="true">★</span>)}
+  </div>
+  <blockquote class="testi-p__quote">{texto}</blockquote>
+  <figcaption class="testi-p__author">
+    <span class="testi-p__avatar" aria-hidden="true">{iniciales}</span>
+    <span class="testi-p__meta">
+      <strong>{nombre}</strong>
+      <small>{comuna}</small>
+    </span>
+  </figcaption>
+</figure>
+
+<style>
+  .testi-p {
+    position: relative;
+    margin: 0;
+    padding: 0.55rem 0.55rem 0.6rem;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: var(--tv-shadow-card);
+    border-left: 3px solid var(--acento);
+  }
+
+  .testi-p__mark {
+    position: absolute;
+    top: -2px;
+    right: 8px;
+    font-family: Georgia, serif;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--acento);
+    opacity: 0.24;
+  }
+
+  .testi-p__stars {
+    color: var(--tv-yellow-500);
+    font-size: 0.66rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.3rem;
+  }
+
+  .testi-p__quote {
+    margin: 0 0 0.5rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    line-height: 1.32;
+    color: var(--tv-ink);
+    overflow-wrap: anywhere;
+  }
+
+  .testi-p__author {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .testi-p__avatar {
+    width: 26px;
+    height: 26px;
+    flex: none;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--acento);
+    color: #fff;
+    font-size: 0.62rem;
+    font-weight: 900;
+  }
+
+  .testi-p__meta { display: flex; flex-direction: column; line-height: 1.1; min-width: 0; }
+  .testi-p__meta strong { font-size: 0.68rem; font-weight: 900; color: var(--tv-ink); }
+  .testi-p__meta small { font-size: 0.6rem; font-weight: 600; color: var(--tv-ink-soft); }
+</style>

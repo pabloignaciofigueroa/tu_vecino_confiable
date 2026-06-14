@@ -1,0 +1,64 @@
+---
+import { Image } from 'astro:assets';
+
+// Bloque de media de un trabajo. Las fotos existentes ya son composiciones
+// antes/después (mitad izquierda = antes, derecha = después), por eso cuando
+// split=true superponemos los labels ANTES (izq) y DESPUÉS (der) sobre la imagen.
+interface Props {
+  foto: ImageMetadata;
+  alt: string;
+  split?: boolean;
+}
+const { foto, alt, split = false } = Astro.props;
+---
+
+<div class="ba-media">
+  <Image src={foto} alt={alt} width={840} densities={[1, 2]} loading="lazy" />
+  {
+    split && (
+      <>
+        <span class="ba-media__label ba-media__label--before">Antes</span>
+        <span class="ba-media__label ba-media__label--after">Después</span>
+      </>
+    )
+  }
+</div>
+
+<style>
+  .ba-media {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(4, 17, 38, 0.12);
+  }
+
+  .ba-media :global(img) {
+    width: 100%;
+    height: 82px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ba-media__label {
+    position: absolute;
+    bottom: 5px;
+    padding: 0.1rem 0.34rem;
+    border-radius: 999px;
+    color: #fff;
+    font-size: 0.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    box-shadow: 0 3px 8px rgba(4, 17, 38, 0.25);
+  }
+
+  .ba-media__label--before {
+    left: 5px;
+    background: var(--tv-coral-500);
+  }
+
+  .ba-media__label--after {
+    right: 5px;
+    background: var(--tv-green-500);
+  }
+</style>

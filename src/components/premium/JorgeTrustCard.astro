@@ -1,0 +1,100 @@
+---
+import { Image } from 'astro:assets';
+
+// Card premium de identidad de Jorge (Servicios): foto + saludo + badge + rating.
+interface Props {
+  photo: ImageMetadata;
+  alt?: string;
+  class?: string;
+}
+const { photo, alt = 'Jorge Letelier', class: className = '' } = Astro.props;
+---
+
+<article class={`jorge-card ${className}`}>
+  <Image class="jorge-card__photo" src={photo} alt={alt} width={180} height={180} />
+  <div class="jorge-card__copy">
+    <strong class="jorge-card__hello">¡Hola! Soy Jorge</strong>
+    <span class="jorge-card__role">Tu vecino de confianza</span>
+    <span class="jorge-card__badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m5 12.5 4.5 4.5L19 7" />
+      </svg>
+      Servicio garantizado
+    </span>
+    <span class="jorge-card__rating">
+      <span class="jorge-card__stars" aria-hidden="true">★</span>
+      <strong>5.0</strong>
+      <small>(120+ reseñas)</small>
+    </span>
+  </div>
+</article>
+
+<style>
+  .jorge-card {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 0.6rem;
+    align-items: center;
+    padding: 0.55rem 0.6rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: var(--tv-shadow-card);
+  }
+
+  .jorge-card :global(.jorge-card__photo) {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 15px;
+    border: 2px solid var(--tv-yellow-400);
+  }
+
+  .jorge-card__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.12rem;
+    min-width: 0;
+  }
+
+  .jorge-card__hello {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--tv-ink);
+  }
+
+  .jorge-card__role {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--tv-ink-soft);
+  }
+
+  .jorge-card__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.24rem;
+    align-self: flex-start;
+    margin-top: 0.1rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 999px;
+    background: #e8f8ec;
+    color: #198f54;
+    font-size: 0.64rem;
+    font-weight: 900;
+  }
+
+  .jorge-card__badge svg { width: 11px; height: 11px; }
+
+  .jorge-card__rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.26rem;
+    margin-top: 0.08rem;
+    color: var(--tv-ink);
+  }
+
+  .jorge-card__stars { color: var(--tv-yellow-500); font-size: 0.9rem; }
+  .jorge-card__rating strong { font-weight: 900; font-size: 0.85rem; }
+  .jorge-card__rating small { font-size: 0.66rem; font-weight: 700; color: var(--tv-ink-soft); }
+</style>

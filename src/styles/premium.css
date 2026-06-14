@@ -1,0 +1,60 @@
+/* ============================================================
+   Helpers premium usados directamente en el markup de páginas
+   (lo que se repite entre Inicio/Servicios/Opiniones). Los
+   componentes complejos llevan su CSS scoped propio.
+   ============================================================ */
+
+/* Eyebrow manuscrito tipo "Lo más pedido" / "Hola, soy" */
+.tv-eyebrow {
+  display: inline-block;
+  margin: 0;
+  font-family: var(--font-hand);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--tv-ink);
+  transform: rotate(-3deg);
+}
+
+/* Título display grande y compacto */
+.tv-display {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+  color: var(--tv-ink);
+}
+
+/* Pill coral "Ver todos los servicios →" */
+.tv-pill-coral {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0.7rem 1.15rem;
+  border-radius: 999px;
+  background: var(--tv-coral-500);
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 10px 22px rgba(239, 72, 84, 0.3);
+  transition: transform var(--tv-dur-fast) var(--tv-ease-pop), box-shadow var(--tv-dur-fast) ease;
+}
+
+.tv-pill-coral:active { transform: translateY(2px) scale(0.98); }
+.tv-pill-coral:focus-visible {
+  outline: 3px solid var(--tv-yellow-400);
+  outline-offset: 3px;
+}
+
+/* Subrayado coral inclinado bajo títulos display */
+.tv-underline-coral {
+  display: block;
+  width: 130px;
+  height: 6px;
+  margin-top: 0.35rem;
+  border-radius: 999px;
+  background: var(--tv-coral-500);
+  transform: rotate(-2deg);
+}

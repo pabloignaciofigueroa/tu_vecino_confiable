@@ -1,0 +1,94 @@
+---
+// Prueba social fuerte: medalla amarilla con estrella + 5.0 + caption.
+interface Props {
+  score?: string;
+  caption?: string;
+  class?: string;
+  variant?: 'light' | 'glass';
+}
+const {
+  score = '5.0',
+  caption = 'Basado en la confianza de mis vecinos',
+  class: className = '',
+  variant = 'light',
+} = Astro.props;
+---
+
+<article class:list={['trust-score', `trust-score--${variant}`, className]}>
+  <span class="trust-score__medal" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9 2.9-6z" />
+    </svg>
+  </span>
+  <div class="trust-score__copy">
+    <strong>{score} <span class="trust-score__stars" aria-hidden="true">★★★★★</span></strong>
+    <span>{caption}</span>
+  </div>
+</article>
+
+<style>
+  .trust-score {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 0.85rem;
+    align-items: center;
+    padding: 0.85rem 1rem;
+    border-radius: 22px;
+  }
+
+  .trust-score--light {
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: var(--tv-shadow-card);
+  }
+
+  .trust-score--glass {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(4px);
+  }
+
+  .trust-score__medal {
+    width: 56px;
+    height: 56px;
+    border-radius: 46% 54% 52% 48% / 50% 46% 54% 50%;
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.5), transparent 50%),
+      var(--tv-yellow-400);
+    color: var(--tv-ink);
+    box-shadow: inset 0 -7px 14px rgba(229, 169, 0, 0.4);
+  }
+
+  .trust-score__medal svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .trust-score__copy strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .trust-score--light .trust-score__copy strong { color: var(--tv-ink); }
+  .trust-score--glass .trust-score__copy strong { color: #fff; }
+
+  .trust-score__stars {
+    color: var(--tv-yellow-500);
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+  }
+
+  .trust-score__copy span {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 0.76rem;
+    font-weight: 700;
+  }
+
+  .trust-score--light .trust-score__copy span { color: var(--tv-ink-soft); }
+  .trust-score--glass .trust-score__copy span { color: rgba(255, 249, 239, 0.78); }
+</style>

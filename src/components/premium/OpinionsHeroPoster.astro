@@ -1,0 +1,136 @@
+---
+import { Image } from 'astro:assets';
+import HandwrittenText from './HandwrittenText.astro';
+import BrushHighlight from './BrushHighlight.astro';
+import GuaranteeSticker from './GuaranteeSticker.astro';
+import TrustScoreCard from './TrustScoreCard.astro';
+import DoodleLayer from './DoodleLayer.astro';
+
+// Hero humano/editorial de Opiniones: Jorge protagonista + saludo manuscrito +
+// nombre gigante + subtítulo coral + highlight + sticker + trust score.
+interface Props {
+  photo: ImageMetadata;
+  alt: string;
+}
+const { photo, alt } = Astro.props;
+---
+
+<section class="ohero tv-texture-paper">
+  <DoodleLayer class="ohero__doodles" color="var(--tv-purple-400)" size={62} />
+
+  <div class="ohero__photo">
+    <Image src={photo} alt={alt} width={680} densities={[1, 2]} loading="eager" fetchpriority="high" />
+  </div>
+
+  <div class="ohero__sticker">
+    <GuaranteeSticker />
+  </div>
+
+  <div class="ohero__copy">
+    <HandwrittenText size="1.6rem" rotate="-4deg">Hola, soy</HandwrittenText>
+    <h1 class="ohero__name">Jorge<br />Letelier</h1>
+    <p class="ohero__sub">
+      Tu vecino confiable para fletes, traslados y soluciones prácticas para la casa.
+    </p>
+    <BrushHighlight class="ohero__brush" rotate="-1.5deg">
+      Trabajo con responsabilidad,<br />buena onda y compromiso.
+    </BrushHighlight>
+    <svg class="ohero__smiley" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="10" stroke="var(--tv-coral-500)" stroke-width="2" />
+      <path d="M8.5 10h.01M15.5 10h.01M8 14.5c1 1.2 2.4 1.8 4 1.8s3-.6 4-1.8" stroke="var(--tv-coral-500)" stroke-width="2" stroke-linecap="round" />
+    </svg>
+  </div>
+
+  <TrustScoreCard class="ohero__score" variant="light" />
+</section>
+
+<style>
+  .ohero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    padding: 0.8rem 0.9rem 0.9rem;
+    background:
+      radial-gradient(90% 60% at 88% 6%, rgba(255, 210, 26, 0.2), transparent 40%),
+      linear-gradient(180deg, var(--tv-cream-100) 0%, var(--tv-cream-50) 100%);
+  }
+
+  .ohero__doodles {
+    position: absolute;
+    bottom: 30%;
+    left: 6px;
+    opacity: 0.6;
+    z-index: 0;
+  }
+
+  /* foto blob a la derecha */
+  .ohero__photo {
+    position: absolute;
+    top: 14px;
+    right: -10px;
+    width: 49%;
+    height: 224px;
+    z-index: 0;
+  }
+
+  .ohero__photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 56% 26%;
+    border-radius: 42% 24% 30% 32% / 32% 28% 30% 30%;
+    box-shadow: 0 12px 26px rgba(4, 17, 38, 0.26);
+  }
+
+  /* wrapper posicionado: evita la colisión de especificidad con .guarantee */
+  .ohero__sticker {
+    position: absolute;
+    top: 8px;
+    right: 6px;
+    z-index: 4;
+  }
+
+  .ohero__copy {
+    position: relative;
+    z-index: 2;
+    width: min(62%, 300px);
+  }
+
+  .ohero__name {
+    margin: 0.05rem 0 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.2rem, 11vw, 3rem);
+    line-height: 0.86;
+    letter-spacing: -0.04em;
+    color: var(--tv-ink);
+  }
+
+  .ohero__sub {
+    margin: 0.55rem 0 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(0.95rem, 4.2vw, 1.18rem);
+    line-height: 1.14;
+    color: var(--tv-coral-500);
+  }
+
+  .ohero__brush {
+    margin-top: 0.7rem;
+    font-size: clamp(0.95rem, 4.2vw, 1.18rem);
+  }
+
+  .ohero__smiley {
+    width: 24px;
+    height: 24px;
+    margin: 0.45rem 0 0 0.4rem;
+    display: inline-block;
+  }
+
+  .ohero__score {
+    position: relative;
+    z-index: 2;
+    margin-top: 0.7rem;
+    width: max(74%, 260px);
+  }
+</style>

@@ -25,12 +25,20 @@ node qa-funcional.mjs
 | Qué | Dónde |
 |---|---|
 | Servicios, precios y descripciones | `src/data/servicios.json` |
+| Foto de cada servicio (grilla premium) | `src/scripts/serviceImages.js` (mapa id → foto en `src/assets/img/servicios/`) |
 | Trabajos realizados | `src/data/trabajos.json` (+ fotos en `src/assets/img/`) |
 | Testimonios | `src/data/testimonios.json` |
 | Métricas y solicitudes seed del admin | `src/data/admin.json` |
 | Número de WhatsApp | `src/scripts/whatsapp.js` (`WA_NUMBER` / `WA_DISPLAY`) |
-| Paleta de colores (roles y categorías) | `src/styles/global.css` (variables `:root`) |
+| Paleta de colores (roles y categorías) | `src/styles/global.css` + `src/styles/tokens.css` (variables `:root`) |
+| Componentes premium (heroes, cards, sticker, brush…) | `src/components/premium/` |
+| Revisión aislada de componentes | ruta `/style-lab` (`src/pages/style-lab.astro`) |
 | Dominio para SEO/og:image | `astro.config.mjs` (`site` o env `SITE_URL`) |
+
+La capa de dirección de arte premium (tokens, geometría, textura, motion) vive en
+`src/styles/{tokens,geometry,textures,motion,premium}.css`, importados desde `global.css`.
+Las 6 fotos de servicios sin trabajo real propio son de **Adobe Stock (colección gratuita,
+licenciadas)**; las de cachureos/fletes/muebles son trabajos reales de Jorge.
 
 Reglas duras de la guía (no cambiar): logo, header navy, CTA fijo
 "Cotizar por WhatsApp / Respuesta rápida", orden del menú inferior

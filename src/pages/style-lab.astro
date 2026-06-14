@@ -1,0 +1,195 @@
+---
+import AppShell from '../layouts/AppShell.astro';
+import HeroPoster from '../components/premium/HeroPoster.astro';
+import FeatureInfoCard from '../components/premium/FeatureInfoCard.astro';
+import ServiceRowPremium from '../components/premium/ServiceRowPremium.astro';
+import ServicesHeroBoard from '../components/premium/ServicesHeroBoard.astro';
+import JorgeTrustCard from '../components/premium/JorgeTrustCard.astro';
+import PremiumServiceCard from '../components/premium/PremiumServiceCard.astro';
+import OpinionsHeroPoster from '../components/premium/OpinionsHeroPoster.astro';
+import BenefitMiniCard from '../components/premium/BenefitMiniCard.astro';
+import TrustScoreCard from '../components/premium/TrustScoreCard.astro';
+import TestimonialScorePill from '../components/premium/TestimonialScorePill.astro';
+import WorkCaseCard from '../components/premium/WorkCaseCard.astro';
+import TestimonialCardPremium from '../components/premium/TestimonialCardPremium.astro';
+import GuaranteeSticker from '../components/premium/GuaranteeSticker.astro';
+import BrushHighlight from '../components/premium/BrushHighlight.astro';
+import HandwrittenText from '../components/premium/HandwrittenText.astro';
+import ColorIconBubble from '../components/premium/ColorIconBubble.astro';
+
+import servicios from '../data/servicios.json';
+import heroFoto from '../assets/img/hero-camioneta.png';
+import jorgeAvatar from '../assets/img/jorge-avatar.png';
+import fotoCachureos from '../assets/img/trabajo-cachureos.png';
+import fotoRepisas from '../assets/img/trabajo-repisas.png';
+import fotoFlete from '../assets/img/trabajo-flete.png';
+
+const destacados = servicios.filter((s) => s.destacado).slice(0, 3);
+const conFoto = servicios.find((s) => s.id === 'cachureos')!;
+const sinFoto = servicios.find((s) => s.id === 'aeropuerto')!;
+---
+
+<AppShell
+  title="Style Lab — Tu Vecino Confiable"
+  description="Revisión aislada de los componentes premium antes de integrar las pantallas."
+  active="inicio"
+>
+  <div class="lab">
+    <p class="lab__intro">
+      <strong>Premium Style Lab</strong><br />
+      Revisión de componentes antes de integrar Inicio / Servicios / Opiniones.
+    </p>
+
+    <p class="lab__label">1 · Hero Inicio</p>
+    <HeroPoster photo={heroFoto} alt="Jorge sobre su camioneta cargada" />
+
+    <p class="lab__label">2 · Feature cards (cobertura)</p>
+    <div class="lab__pad lab__grid2">
+      <FeatureInfoCard icon="pin" title="Atención en Santiago" text="y alrededores" href="#" />
+      <FeatureInfoCard
+        icon="beach"
+        title="Viajes a Viña / Valparaíso"
+        text="previa cotización"
+        href="#"
+        iconBg="var(--tv-blue-50)"
+        iconFg="var(--tv-navy-900)"
+      />
+    </div>
+
+    <p class="lab__label">3 · Service rows (destacados)</p>
+    <div class="lab__pad">
+      <div class="lab__panel">
+        {destacados.map((s) => <ServiceRowPremium servicio={s} />)}
+      </div>
+    </div>
+
+    <p class="lab__label">4 · Hero Servicios</p>
+    <ServicesHeroBoard jorgePhoto={jorgeAvatar} />
+
+    <p class="lab__label">5 · Jorge trust card</p>
+    <div class="lab__pad"><JorgeTrustCard photo={jorgeAvatar} /></div>
+
+    <p class="lab__label">6 · Premium service cards (con foto + fallback)</p>
+    <div class="lab__pad lab__grid2">
+      <PremiumServiceCard servicio={conFoto} photo={fotoCachureos} />
+      <PremiumServiceCard servicio={sinFoto} />
+      <PremiumServiceCard servicio={servicios.find((s) => s.id === 'fletes')!} photo={fotoFlete} selected />
+      <PremiumServiceCard servicio={servicios.find((s) => s.id === 'pintura')!} />
+    </div>
+
+    <p class="lab__label">7 · Hero Opiniones</p>
+    <OpinionsHeroPoster photo={heroFoto} alt="Jorge junto a su camioneta" />
+
+    <p class="lab__label">8 · Beneficios (5, tarjeta)</p>
+    <div class="lab__pad lab__grid3">
+      <BenefitMiniCard icon="directa" title="Atención directa" text="Hablo contigo desde el inicio" color="var(--tv-coral-500)" soft="var(--tv-pink-50)" card />
+      <BenefitMiniCard icon="camion" title="Camioneta propia" text="Fletes seguros y puntuales" color="var(--tv-blue-500)" soft="var(--tv-blue-50)" card />
+      <BenefitMiniCard icon="check" title="Servicio garantizado" text="Si algo no queda bien, lo arreglo" color="var(--tv-green-500)" soft="var(--tv-mint-100)" card />
+      <BenefitMiniCard icon="moneda" title="Precio justo" text="Cotizaciones claras" color="var(--tv-purple-500)" soft="var(--tv-lilac-100)" card />
+      <BenefitMiniCard icon="estrella" title="Respuesta rápida" text="Te respondo por WhatsApp" color="var(--tv-orange-500)" soft="#ffe6d2" card />
+    </div>
+
+    <p class="lab__label">9 · Prueba social</p>
+    <div class="lab__pad lab__stack">
+      <TrustScoreCard variant="light" />
+      <TestimonialScorePill />
+    </div>
+
+    <p class="lab__label">10 · Work case + testimonio</p>
+    <div class="lab__pad lab__stack">
+      <WorkCaseCard
+        titulo="Retiro de cachureos"
+        texto="Retiré muebles, electrodomésticos y cosas en desuso."
+        comuna="Quilpué"
+        cat="cachureos"
+        icono="sillon"
+        foto={fotoCachureos}
+        fotoAlt="Antes y después de un retiro de cachureos"
+        antesDespues
+      />
+      <WorkCaseCard
+        titulo="Repisas a medida"
+        texto="Diseñé, fabriqué e instalé repisas a medida en bodega."
+        comuna="Villa Alemana"
+        cat="muebles"
+        icono="herramientas"
+        foto={fotoRepisas}
+        fotoAlt="Repisas a medida instaladas"
+        antesDespues
+      />
+      <TestimonialCardPremium
+        texto="Excelente servicio, puntual y muy cuidadoso con todo. 100% recomendado."
+        nombre="María G."
+        comuna="Viña del Mar"
+        estrellas={5}
+        acento="var(--tv-coral-500)"
+      />
+    </div>
+
+    <p class="lab__label">11 · Acentos premium</p>
+    <div class="lab__pad lab__accents">
+      <GuaranteeSticker animated={false} />
+      <BrushHighlight>Si lo necesitas, yo lo resuelvo</BrushHighlight>
+      <HandwrittenText size="1.8rem">¡Hola! Soy Jorge</HandwrittenText>
+      <div class="lab__bubbles">
+        <ColorIconBubble icon="avion" cat="aeropuerto" />
+        <ColorIconBubble icon="copas" cat="fiestas" />
+        <ColorIconBubble icon="camion" cat="fletes" />
+        <ColorIconBubble icon="rodillo" cat="pintura" />
+      </div>
+    </div>
+  </div>
+</AppShell>
+
+<style>
+  .lab {
+    background: #fff;
+  }
+
+  .lab__intro {
+    padding: 18px;
+    background: var(--tv-navy-900);
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .lab__intro strong {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .lab__label {
+    margin: 0;
+    padding: 10px 18px;
+    background: var(--tv-cream-100);
+    color: var(--tv-ink);
+    font-family: var(--font-hand);
+    font-size: 18px;
+    font-weight: 700;
+    border-top: 1px solid rgba(4, 17, 38, 0.06);
+  }
+
+  .lab__pad { padding: 16px 18px; }
+  .lab__stack { display: flex; flex-direction: column; gap: 12px; }
+  .lab__grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .lab__grid3 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .lab__panel {
+    border-radius: 26px;
+    background: #fff;
+    box-shadow: var(--tv-shadow-soft);
+    padding: 4px 12px;
+  }
+
+  .lab__accents {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px;
+    background: var(--tv-mint-50);
+  }
+
+  .lab__bubbles { display: flex; gap: 10px; }
+</style>

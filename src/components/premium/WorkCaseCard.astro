@@ -1,0 +1,71 @@
+---
+import ColorIconBubble from './ColorIconBubble.astro';
+import BeforeAfterMediaBlock from './BeforeAfterMediaBlock.astro';
+import LocationTag from './LocationTag.astro';
+
+// Caso de trabajo realizado (Opiniones): header con icono + foto antes/después
+// + descripción corta + ubicación. Compacto y editorial.
+interface Props {
+  titulo: string;
+  texto: string;
+  comuna: string;
+  cat: string;
+  icono: string;
+  foto: ImageMetadata;
+  fotoAlt: string;
+  antesDespues?: boolean;
+}
+const { titulo, texto, comuna, cat, icono, foto, fotoAlt, antesDespues = false } = Astro.props;
+---
+
+<article class="work-case" style={`--cat: var(--cat-${cat});`}>
+  <header class="work-case__head">
+    <ColorIconBubble icon={icono} cat={cat} size={26} />
+    <h3 class="work-case__title">{titulo}</h3>
+  </header>
+
+  <BeforeAfterMediaBlock foto={foto} alt={fotoAlt} split={antesDespues} />
+
+  <p class="work-case__text">{texto}</p>
+  <LocationTag color="var(--cat)">{comuna}</LocationTag>
+</article>
+
+<style>
+  .work-case {
+    display: grid;
+    gap: 0.45rem;
+    padding: 0.5rem 0.5rem 0.55rem;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: var(--tv-shadow-card);
+    border-top: 4px solid var(--cat);
+    transition: transform var(--tv-dur-fast) var(--tv-ease-pop);
+  }
+
+  .work-case:active { transform: translateY(2px) scale(0.99); }
+
+  .work-case__head {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .work-case__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--tv-ink);
+    overflow-wrap: anywhere;
+  }
+
+  .work-case__text {
+    margin: 0;
+    font-size: 0.66rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--tv-ink-soft);
+  }
+</style>

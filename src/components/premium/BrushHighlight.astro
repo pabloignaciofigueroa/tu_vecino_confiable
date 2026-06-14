@@ -1,0 +1,58 @@
+---
+// Frase sobre mancha amarilla tipo marcador/pincel (no badge rectangular).
+// La pintura es un pseudo-bloque con clip-path irregular y leve rotación.
+interface Props {
+  class?: string;
+  color?: string;
+  rotate?: string;
+  tag?: keyof HTMLElementTagNameMap;
+}
+const { class: className = '', color = 'var(--tv-yellow-400)', rotate = '-2deg', tag = 'span' } = Astro.props;
+const Tag = tag as any;
+---
+
+<Tag class={`brush ${className}`} style={`--brush-bg:${color}; --brush-rot:${rotate};`}>
+  <span class="brush__paint" aria-hidden="true"></span>
+  <span class="brush__text"><slot /></span>
+</Tag>
+
+<style>
+  .brush {
+    position: relative;
+    display: inline-block;
+    padding: 0.35rem 0.8rem 0.45rem;
+    transform: rotate(var(--brush-rot));
+    color: var(--tv-ink);
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -0.01em;
+  }
+
+  .brush__paint {
+    position: absolute;
+    inset: 0.05rem -0.2rem;
+    z-index: -1;
+    background: var(--brush-bg);
+    clip-path: polygon(
+      2% 26%, 11% 9%, 38% 5%, 64% 11%, 84% 6%, 98% 22%,
+      96% 58%, 99% 80%, 72% 92%, 40% 88%, 16% 94%, 4% 72%
+    );
+    box-shadow: 0 8px 16px rgba(229, 169, 0, 0.22);
+  }
+
+  .brush__paint::after {
+    /* veta de brillo interna para que parezca pintura, no relleno plano */
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.35), transparent 42%);
+    clip-path: inherit;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .brush--reveal .brush__paint {
+      animation: tv-brush-reveal 0.6s var(--tv-ease-premium) both;
+    }
+  }
+</style>

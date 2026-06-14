@@ -1,0 +1,142 @@
+---
+import { Image } from 'astro:assets';
+import HandwrittenText from './HandwrittenText.astro';
+import HandDrawnArrow from './HandDrawnArrow.astro';
+import BrushHighlight from './BrushHighlight.astro';
+import GuaranteeSticker from './GuaranteeSticker.astro';
+import BenefitMiniCard from './BenefitMiniCard.astro';
+
+// Hero póster de Inicio (réplica de 01.jpeg): foto de Jorge a la derecha sangrando
+// al borde, titular a la izquierda sobre crema, highlight, sticker y 3 beneficios.
+interface Props {
+  photo: ImageMetadata;
+  alt: string;
+}
+const { photo, alt } = Astro.props;
+---
+
+<section class="hero-poster">
+  <div class="hero-poster__photo">
+    <Image src={photo} alt={alt} width={620} densities={[1, 2]} loading="eager" fetchpriority="high" />
+  </div>
+
+  <div class="hero-poster__sticker">
+    <GuaranteeSticker />
+  </div>
+
+  <div class="hero-poster__copy">
+    <span class="hero-poster__hello">
+      <HandwrittenText size="1.6rem" rotate="-4deg">¡Hola! Soy Jorge</HandwrittenText>
+      <HandDrawnArrow width={40} color="var(--tv-yellow-500)" />
+    </span>
+
+    <h1 class="hero-poster__title">
+      <span>Estoy aquí</span>
+      <strong>para ayudarte</strong>
+    </h1>
+
+    <BrushHighlight class="hero-poster__brush" rotate="-2.5deg">
+      Si lo necesitas,<br />yo lo resuelvo
+    </BrushHighlight>
+  </div>
+
+  <div class="hero-poster__benefits">
+    <BenefitMiniCard icon="estrella" title="Buena onda" text="de principio a fin" color="var(--tv-orange-500)" soft="#ffe6d2" />
+    <BenefitMiniCard icon="moneda" title="Precio justo" text="sin letras chicas" color="var(--tv-green-500)" soft="var(--tv-mint-100)" />
+    <BenefitMiniCard icon="check" title="Servicio garantizado" text="siempre" color="var(--tv-purple-500)" soft="var(--tv-lilac-100)" />
+  </div>
+</section>
+
+<style>
+  .hero-poster {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 8px 14px 12px;
+    background:
+      radial-gradient(80% 50% at 92% 6%, rgba(255, 210, 26, 0.16), transparent 45%),
+      var(--tv-cream-50);
+  }
+
+  /* foto a la derecha, sangra al borde, recorte orgánico abajo-izquierda */
+  .hero-poster__photo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 55%;
+    height: 212px;
+    z-index: 0;
+  }
+
+  .hero-poster__photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 54% 20%;
+    border-bottom-left-radius: 38% 30%;
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.26);
+  }
+
+  /* wrapper posicionado (evita la colisión de especificidad con .guarantee) */
+  .hero-poster__sticker {
+    position: absolute;
+    top: 34px;
+    right: 4px;
+    z-index: 4;
+  }
+
+  .hero-poster__copy {
+    position: relative;
+    z-index: 2;
+    width: 70%;
+    min-height: 196px;
+  }
+
+  .hero-poster__hello {
+    display: flex;
+    align-items: flex-start;
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+
+  .hero-poster__hello :global(.doodle-arrow) {
+    margin-top: 3px;
+  }
+
+  .hero-poster__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 0.86;
+    letter-spacing: -0.05em;
+    text-shadow: 0 1px 10px rgba(255, 248, 236, 0.92);
+  }
+
+  .hero-poster__title span {
+    display: block;
+    font-size: clamp(2.4rem, 11.5vw, 3.2rem);
+    color: var(--tv-ink);
+  }
+
+  .hero-poster__title strong {
+    display: block;
+    font-size: clamp(2.4rem, 11.5vw, 3.2rem);
+    font-weight: 700;
+    color: var(--tv-coral-500);
+    white-space: nowrap;
+  }
+
+  .hero-poster__brush {
+    margin-top: 0.45rem;
+    font-size: clamp(1rem, 4.4vw, 1.3rem);
+  }
+
+  .hero-poster__benefits {
+    position: relative;
+    z-index: 2;
+    margin-top: 0.55rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+</style>

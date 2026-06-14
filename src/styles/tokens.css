@@ -1,0 +1,74 @@
+/* ============================================================
+   TU VECINO CONFIABLE — tokens premium (Design Translation Layer)
+   Paleta objetivo de las 3 direcciones de arte (01/02/03.jpeg).
+   Convive con los --cat-* y roles ya definidos en global.css.
+   ============================================================ */
+
+:root {
+  /* --- Navy / tinta --- */
+  --tv-navy-950: #041126;
+  --tv-navy-900: #06162f;
+  --tv-navy-850: #0a1c35;
+  --tv-ink: #0a1932;
+  --tv-ink-soft: #41527a;
+
+  /* --- Papeles cálidos --- */
+  --tv-cream-50: #fff8ec;
+  --tv-cream-100: #f8f0e2;
+  --tv-cream-200: #efe4c9;
+
+  /* --- Amarillo marca --- */
+  --tv-yellow-400: #ffd21a;
+  --tv-yellow-500: #ffc400;
+  --tv-yellow-600: #e5a900;
+
+  /* --- Coral / rojo editorial --- */
+  --tv-coral-400: #ff6470;
+  --tv-coral-500: #ef4b59;
+  --tv-coral-600: #d93d49;
+
+  /* --- Morado garantía / reseñas --- */
+  --tv-purple-400: #9361f0;
+  --tv-purple-500: #8b5cf6;
+  --tv-purple-600: #7445d9;
+
+  /* --- Acentos por categoría --- */
+  --tv-blue-500: #2f84f6;
+  --tv-green-500: #18b07a;
+  --tv-pink-500: #f05f97;
+  --tv-orange-500: #f78a2a;
+  --tv-sky-500: #42a5f5;
+
+  /* --- Fondos suaves de sección --- */
+  --tv-mint-50: #eaf8ef;
+  --tv-mint-100: #dff3e4;
+  --tv-lilac-50: #efe5fb;
+  --tv-lilac-100: #e6d8f8;
+  --tv-blue-50: #eaf3ff;
+  --tv-pink-50: #ffeaf3;
+
+  /* --- Sombras artesanales --- */
+  --tv-shadow-soft: 0 18px 40px rgba(4, 17, 38, 0.16);
+  --tv-shadow-card: 0 12px 26px rgba(4, 17, 38, 0.12);
+  --tv-shadow-strong: 0 18px 42px rgba(4, 17, 38, 0.22);
+  --tv-shadow-cta: 0 18px 34px rgba(255, 196, 0, 0.32);
+  --tv-shadow-sticker: 0 10px 0 rgba(4, 17, 38, 0.14);
+
+  /* --- Easings / duraciones --- */
+  --tv-ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+  --tv-ease-pop: cubic-bezier(0.2, 0.9, 0.2, 1.2);
+  --tv-dur-fast: 160ms;
+  --tv-dur-medium: 320ms;
+  --tv-dur-slow: 700ms;
+
+  /* --- Radios --- */
+  --tv-radius-card: 26px;
+  --tv-radius-panel: 32px;
+
+  /* --- Tipografía --- */
+  --font-display: 'Fredoka', 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  --font-hand: 'Caveat', 'Segoe UI', cursive;
+
+  /* --- Safe area inferior por CTA fijo + nav --- */
+  --tv-safe-bottom: calc(92px + env(safe-area-inset-bottom));
+}

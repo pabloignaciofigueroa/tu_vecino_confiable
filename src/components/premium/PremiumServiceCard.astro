@@ -1,0 +1,175 @@
+---
+import { Image } from 'astro:assets';
+import ColorIconBubble from './ColorIconBubble.astro';
+import ServiceIcon from '../ServiceIcon.astro';
+
+// Tarjeta premium de servicio (Servicios). CONSERVA el contrato del script de la
+// página: class="scard", id, data-service-id/name, aria-pressed, toggle .is-selected.
+// El <button> completo togglea la selección; el chip "Cotizar" es afordancia visual.
+interface Props {
+  servicio: {
+    id: string;
+    nombre: string;
+    descripcion: string;
+    icono: string;
+  };
+  selected?: boolean;
+  photo?: ImageMetadata;
+}
+const { servicio: s, selected = false, photo } = Astro.props;
+---
+
+<button
+  type="button"
+  class:list={['scard', 'pscard', { 'is-selected': selected }]}
+  id={s.id}
+  data-service-id={s.id}
+  data-service-name={s.nombre}
+  aria-pressed={selected ? 'true' : 'false'}
+  style={`--cat: var(--cat-${s.id}); --cat-soft: var(--cat-${s.id}-soft);`}
+>
+  <span class="pscard__top">
+    <ColorIconBubble icon={s.icono} cat={s.id} size={32} />
+    <span class="pscard__copy">
+      <strong class="pscard__name">{s.nombre}</strong>
+      <small class="pscard__desc">{s.descripcion}</small>
+    </span>
+  </span>
+
+  <span class="pscard__media">
+    {
+      photo ? (
+        <Image src={photo} alt="" width={360} densities={[1, 2]} loading="lazy" />
+      ) : (
+        <span class="pscard__media-fallback" aria-hidden="true">
+          <ServiceIcon icon={s.icono} cat={s.id} size={56} />
+        </span>
+      )
+    }
+  </span>
+
+  <span class="pscard__cta">Cotizar <span aria-hidden="true">→</span></span>
+
+  <span class="pscard__check" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m5 12.5 4.5 4.5L19 7" />
+    </svg>
+  </span>
+</button>
+
+<style>
+  .pscard {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 0.35rem;
+    text-align: left;
+    min-height: 132px;
+    padding: 0.45rem;
+    border-radius: 15px;
+    background: var(--cat-soft);
+    border: 2px solid transparent;
+    box-shadow: var(--tv-shadow-card);
+    overflow: hidden;
+    transition: transform var(--tv-dur-fast) var(--tv-ease-pop), box-shadow var(--tv-dur-fast) ease, border-color var(--tv-dur-fast) ease;
+  }
+
+  .pscard:active { transform: translateY(2px) scale(0.985); }
+  .pscard:focus-visible {
+    outline: 3px solid var(--tv-yellow-400);
+    outline-offset: 2px;
+  }
+
+  .pscard__top {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.4rem;
+    align-items: start;
+  }
+
+  .pscard__copy { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+
+  .pscard__name {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--tv-ink);
+    overflow-wrap: anywhere;
+  }
+
+  .pscard__desc {
+    font-size: 0.64rem;
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--tv-ink-soft);
+    overflow-wrap: anywhere;
+  }
+
+  .pscard__media {
+    position: relative;
+    align-self: stretch;
+    min-height: 50px;
+    border-radius: 11px;
+    overflow: hidden;
+    background:
+      radial-gradient(120% 90% at 80% 18%, color-mix(in srgb, var(--cat) 30%, transparent), transparent 60%),
+      #fff;
+  }
+
+  .pscard__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pscard__media-fallback {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+  }
+
+  /* Cotizar como link de texto (no pastilla), abajo-izquierda */
+  .pscard__cta {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--cat);
+    font-size: 0.72rem;
+    font-weight: 900;
+  }
+
+  .pscard__check {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--tv-yellow-400);
+    color: var(--tv-ink);
+    display: none;
+    place-items: center;
+    box-shadow: 0 2px 6px rgba(255, 196, 0, 0.5);
+  }
+
+  .pscard__check svg { width: 12px; height: 12px; }
+
+  .pscard.is-selected {
+    border-color: var(--tv-yellow-400);
+    box-shadow: 0 6px 18px rgba(255, 196, 0, 0.3);
+  }
+
+  .pscard.is-selected .pscard__check {
+    display: grid;
+    animation: pop-in 0.22s ease-out;
+  }
+
+  .pscard.is-selected .pscard__cta {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>

@@ -1,0 +1,35 @@
+---
+// Texto manuscrito (saludos, eyebrows): "¡Hola! Soy Jorge", "Lo más pedido".
+interface Props {
+  class?: string;
+  size?: string;
+  rotate?: string;
+  color?: string;
+  tag?: keyof HTMLElementTagNameMap;
+}
+const {
+  class: className = '',
+  size = '1.5rem',
+  rotate = '-3deg',
+  color = 'var(--tv-ink)',
+  tag = 'span',
+} = Astro.props;
+const Tag = tag as any;
+---
+
+<Tag class={`hand ${className}`} style={`--hand-size:${size}; --hand-rot:${rotate}; --hand-color:${color};`}>
+  <slot />
+</Tag>
+
+<style>
+  .hand {
+    display: inline-block;
+    margin: 0;
+    font-family: var(--font-hand);
+    font-size: var(--hand-size);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--hand-color);
+    transform: rotate(var(--hand-rot));
+  }
+</style>

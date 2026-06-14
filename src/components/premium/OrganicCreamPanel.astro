@@ -1,0 +1,43 @@
+---
+// Recorte crema orgánico (no rectángulo) detrás del texto de los heroes.
+// La forma vive en un SVG absoluto; el contenido va en una caja segura encima.
+interface Props {
+  class?: string;
+  fill?: string;
+}
+const { class: className = '', fill = 'var(--tv-cream-50)' } = Astro.props;
+---
+
+<div class={`cream-panel tv-texture-paper ${className}`}>
+  <svg class="cream-panel__shape" viewBox="0 0 460 430" preserveAspectRatio="none" aria-hidden="true">
+    <path
+      style={`fill:${fill}`}
+      d="M14,34 C66,6 158,2 250,9 C341,14 430,14 452,64 C476,118 430,166 436,228 C444,308 408,392 316,414 C228,435 126,411 64,372 C4,334 -12,278 8,216 C26,160 -30,74 14,34Z"
+    ></path>
+  </svg>
+  <div class="cream-panel__content">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .cream-panel {
+    position: relative;
+    isolation: isolate;
+    padding: clamp(1.2rem, 5vw, 2rem) clamp(1.1rem, 4.5vw, 1.8rem);
+  }
+
+  .cream-panel__shape {
+    position: absolute;
+    inset: -26px -20px -26px -26px;
+    width: calc(100% + 46px);
+    height: calc(100% + 52px);
+    z-index: -1;
+    filter: drop-shadow(0 16px 34px rgba(4, 17, 38, 0.16));
+  }
+
+  .cream-panel__content {
+    position: relative;
+    z-index: 1;
+  }
+</style>

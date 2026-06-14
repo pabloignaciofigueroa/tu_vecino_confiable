@@ -107,20 +107,24 @@ const waUrl = buildWhatsAppUrl();
   .brand-name {
     color: #fff;
     text-transform: uppercase;
-    font-weight: 900;
+    font-family: var(--font-display, inherit);
+    font-weight: 700;
     font-size: 13px;
     line-height: 1.15;
     letter-spacing: 0.06em;
   }
 
   .menu-btn {
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
-    border-radius: 12px;
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    transition: background 0.15s ease;
   }
 
   .menu-btn svg {
@@ -129,7 +133,12 @@ const waUrl = buildWhatsAppUrl();
   }
 
   .menu-btn:active {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.16);
+  }
+
+  .menu-btn:focus-visible {
+    outline: 2.5px solid var(--yellow);
+    outline-offset: 2px;
   }
 
   .menu-sheet[hidden] {
